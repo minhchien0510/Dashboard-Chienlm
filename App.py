@@ -231,51 +231,95 @@ def load_brand_data():
     return pd.DataFrame()
 
 @st.cache_data(ttl=600)
-def get_targets():
-    if not os.path.exists(KPI_PATH): return {}
+def load_kpi_master():
+    """Đọc Target_KPI theo đúng cấu trúc mới có Mã SS/Tên SS."""
+    if not os.path.exists(KPI_PATH):
+        return pd.DataFrame()
     try:
-        kpi = pd.read_excel(KPI_PATH, header=None).iloc[2:]
-        kpi.columns = ['Region','Month','Ship to','Distributor','SUP','SM pos','SM code','SM name',
-                       'Saleteam','KPI type','KPI Name','Target','Thực hiện','% actual','% Contrib','Chưa ra HĐ']
-        kpi = kpi.dropna(subset=['SM code'])
+        kpi = pd.read_excel(KPI_PATH, header=None).iloc[2:].copy()
+        kpi.columns = [
+            'Region','Month','Ship to','Distributor','Mã SS','Tên SS',
+            'SM pos','SM code','SM name','Saleteam','KPI type','KPI Name',
+            'Target','Thực hiện','% actual','% Contrib','Chưa ra HĐ'
+        ]
+        kpi = kpi.dropna(subset=['SM code']).copy()
+        kpi['Mã SS'] = kpi['Mã SS'].astype(str).str.strip()
+        kpi['Tên SS'] = kpi['Tên SS'].astype(str).str.strip()
+        kpi['SM code'] = kpi['SM code'].astype(str).str.strip()
+        kpi['SM name'] = kpi['SM name'].astype(str).str.strip()
+        kpi['KPI type'] = kpi['KPI type'].astype(str).str.strip()
+        kpi['KPI Name'] = kpi['KPI Name'].astype(str).str.strip()
         kpi['Target'] = pd.to_numeric(kpi['Target'], errors='coerce')
-        targets = {}
-        for _, r in kpi.iterrows():
-            sm, ktype, kname, tgt = str(r['SM code']).strip(), str(r['KPI type']).strip(), str(r['KPI Name']).strip(), r['Target']
-            if pd.isna(tgt): continue
-            ktype_lower, kname_lower = ktype.lower(), kname.lower()
-            
-            if ktype_lower == 'aso_all': 
-                targets.setdefault(sm, {})['ASO_ALL'] = int(tgt)
-            elif ktype_lower == 'pc_bt': 
-                targets.setdefault(sm, {})['PC_BT'] = int(tgt)
-            elif ktype_lower == 'aso_on': 
-                targets.setdefault(sm, {})['ASO_ON'] = int(tgt)
-            elif ktype_lower == 'aso_focus' or 'xanh' in kname_lower: 
-                targets.setdefault(sm, {})['ASO_CHANTE'] = int(tgt)
-            elif ktype_lower == 'aso_focus_2' or 'vàng' in kname_lower or 'trận vàng' in kname_lower: 
-                targets.setdefault(sm, {})['ASO_OMACHI'] = int(tgt)
-        return targets
-    except: return {}
+        return kpi
+    except Exception as e:
+        print('Error loading Target_KPI:', e)
+        return pd.DataFrame()
+
+@st.cache_data(ttl=600)
+def get_ss_master():
+    kpi = load_kpi_master()
+    if kpi.empty:
+        return pd.DataFrame(columns=['Mã SS','Tên SS'])
+    return kpi[['Mã SS','Tên SS']].drop_duplicates().sort_values(['Tên SS','Mã SS']).reset_index(drop=True)
+
+@st.cache_data(ttl=600)
+def get_sm_ss_map():
+    kpi = load_kpi_master()
+    if kpi.empty:
+        return {}
+    return (kpi[['SM code','Mã SS','Tên SS','SM name']]
+            .drop_duplicates('SM code')
+            .set_index('SM code')
+            .to_dict('index'))
+
+@st.cache_data(ttl=600)
+def get_targets():
+    kpi = load_kpi_master()
+    if kpi.empty: return {}
+    targets = {}
+    for _, r in kpi.iterrows():
+        sm = str(r['SM code']).strip()
+        ktype = str(r['KPI type']).strip().lower()
+        kname = str(r['KPI Name']).strip().lower()
+        tgt = r['Target']
+        if pd.isna(tgt): continue
+        if ktype == 'aso_all':
+            targets.setdefault(sm, {})['ASO_ALL'] = int(tgt)
+        elif ktype == 'pc_bt':
+            targets.setdefault(sm, {})['PC_BT'] = int(tgt)
+        elif ktype == 'aso_on':
+            targets.setdefault(sm, {})['ASO_ON'] = int(tgt)
+        elif ktype == 'aso_focus' or 'xanh' in kname:
+            targets.setdefault(sm, {})['ASO_CHANTE'] = int(tgt)
+        elif ktype == 'aso_focus_2' or 'vàng' in kname or 'trận vàng' in kname:
+            targets.setdefault(sm, {})['ASO_OMACHI'] = int(tgt)
+    return targets
 
 @st.cache_data(ttl=600)
 def get_turnover_targets():
-    if not os.path.exists(KPI_PATH): return {}
-    try:
-        kpi = pd.read_excel(KPI_PATH, header=None).iloc[2:]
-        kpi.columns = ['Region','Month','Ship to','Distributor','SUP','SM pos','SM code','SM name',
-                       'Saleteam','KPI type','KPI Name','Target','Thực hiện','% actual','% Contrib','Chưa ra HĐ']
-        kpi = kpi.dropna(subset=['SM code'])
-        kpi['Target'] = pd.to_numeric(kpi['Target'], errors='coerce')
-        targets = {}
-        for _, r in kpi.iterrows():
-            sm, ktype = str(r['SM code']).strip(), str(r['KPI type']).strip().lower()
-            tgt = r['Target']
-            if pd.isna(tgt): continue
-            if ktype == 'turnover':
-                targets[sm] = float(tgt)
-        return targets
-    except: return {}
+    kpi = load_kpi_master()
+    if kpi.empty: return {}
+    turnover = kpi[kpi['KPI type'].str.lower() == 'turnover']
+    return dict(zip(turnover['SM code'].astype(str).str.strip(), pd.to_numeric(turnover['Target'], errors='coerce').fillna(0.0).astype(float)))
+
+def get_sm_codes_by_ss(sm_ss_map, ss_filter):
+    if not ss_filter or ss_filter == 'Tất cả Mã SS':
+        return None
+    return {sm for sm, info in sm_ss_map.items() if str(info.get('Mã SS','')).strip() == str(ss_filter).strip()}
+
+def filter_sales_by_ss(df_in, sm_ss_map, ss_filter):
+    if df_in.empty or not ss_filter or ss_filter == 'Tất cả Mã SS':
+        return df_in
+    allowed = get_sm_codes_by_ss(sm_ss_map, ss_filter) or set()
+    if 'Mã NVBH' not in df_in.columns:
+        return df_in.iloc[0:0].copy()
+    return df_in[df_in['Mã NVBH'].astype(str).str.strip().isin(allowed)].copy()
+
+def get_ss_name(sm_ss_map, ss_filter):
+    if not ss_filter or ss_filter == 'Tất cả Mã SS':
+        return 'Tất cả Mã SS'
+    names = {str(v.get('Tên SS','')).strip() for v in sm_ss_map.values() if str(v.get('Mã SS','')).strip() == str(ss_filter).strip()}
+    return next(iter(names), '')
 
 def color_pct_bg(val):
     try:
@@ -464,8 +508,9 @@ def process_brand_sales(df_rpt, df_brand):
     drop_cols = [c for c in ['_outlet_key', '_brand_key', 'Val1', 'Val2'] if c in df_out.columns]
     return df_out.drop(columns=drop_cols)
 
-def build_report(df, report_date, targets, report_type, filter_nv=None):
+def build_report(df, report_date, targets, report_type, filter_nv=None, sm_ss_map=None, ss_filter='Tất cả Mã SS'):
     df_mtd = df[df['date'] >= date(report_date.year, report_date.month, 1)].copy()
+    df_mtd = filter_sales_by_ss(df_mtd, sm_ss_map or {}, ss_filter)
     if filter_nv and filter_nv != "Tất cả ĐDKD":
         df_mtd = df_mtd[df_mtd['Tên NVBH'] == filter_nv]
     sm_names = df_mtd.groupby('Mã NVBH')['Tên NVBH'].first().to_dict()
@@ -481,7 +526,7 @@ def build_report(df, report_date, targets, report_type, filter_nv=None):
         off = df_mtd[(df_mtd['L1']=='Kênh Off Premise') & ~df_mtd['Sub Division'].astype(str).str.contains('Beer|Bia', case=False, na=False)]
         lines = off.groupby(['Mã NVBH','Mã đơn hàng'])['Mã sản phẩm'].nunique()
         mtd = lines[lines>=4].reset_index().groupby('Mã NVBH')['Mã đơn hàng'].nunique()
-        df_today = df[df['date']==report_date]
+        df_today = filter_sales_by_ss(df[df['date']==report_date].copy(), sm_ss_map or {}, ss_filter)
         if filter_nv and filter_nv != "Tất cả ĐDKD": df_today = df_today[df_today['Tên NVBH']==filter_nv]
         off_t = df_today[(df_today['L1']=='Kênh Off Premise') & ~df_today['Sub Division'].astype(str).str.contains('Beer|Bia', case=False, na=False)]
         lines_t = off_t.groupby(['Mã NVBH','Mã đơn hàng'])['Mã sản phẩm'].nunique()
@@ -493,7 +538,7 @@ def build_report(df, report_date, targets, report_type, filter_nv=None):
         tea['qty'] = pd.to_numeric(tea['Tổng lẻ'], errors='coerce').fillna(0)
         ch = tea.groupby(['Mã NVBH','Mã CH'])['qty'].sum()
         mtd = ch[ch>=12].reset_index().groupby('Mã NVBH')['Mã CH'].nunique()
-        df_today = df[df['date']==report_date]
+        df_today = filter_sales_by_ss(df[df['date']==report_date].copy(), sm_ss_map or {}, ss_filter)
         if filter_nv and filter_nv != "Tất cả ĐDKD": df_today = df_today[df_today['Tên NVBH']==filter_nv]
         on_t = df_today[df_today['L1']=='Kênh On Premise']
         tea_t = on_t[on_t['Tên SP lower'].str.contains('tea|trà|ô long|olong|búp non', na=False)]
@@ -539,9 +584,9 @@ def build_report(df, report_date, targets, report_type, filter_nv=None):
     }])
     return pd.concat([df_out, total_row], ignore_index=True), team_tgt, title
 
-def build_turnover_report(df, report_date, turnover_targets, filter_nv=None):
-    df_mtd = df[df['date'] >= date(report_date.year, report_date.month, 1)].copy()
-    df_today = df[df['date'] == report_date].copy()
+def build_turnover_report(df, report_date, turnover_targets, filter_nv=None, sm_ss_map=None, ss_filter='Tất cả Mã SS'):
+    df_mtd = filter_sales_by_ss(df[df['date'] >= date(report_date.year, report_date.month, 1)].copy(), sm_ss_map or {}, ss_filter)
+    df_today = filter_sales_by_ss(df[df['date'] == report_date].copy(), sm_ss_map or {}, ss_filter)
     
     if filter_nv and filter_nv != "Tất cả ĐDKD":
         df_mtd = df_mtd[df_mtd['Tên NVBH'] == filter_nv]
@@ -596,14 +641,20 @@ def build_turnover_report(df, report_date, turnover_targets, filter_nv=None):
     }])
     return pd.concat([df_out, total_row], ignore_index=True), team_tgt, "8. BÁO CÁO DOANH SỐ (TURNOVER)"
 
-def build_combo_matrix(df, report_date, df_off_master, df_on_master, filter_nv=None):
-    df_mtd = df[df['date'] >= date(report_date.year, report_date.month, 1)].copy()
+def build_combo_matrix(df, report_date, df_off_master, df_on_master, filter_nv=None, sm_ss_map=None, ss_filter='Tất cả Mã SS'):
+    df_mtd = filter_sales_by_ss(df[df['date'] >= date(report_date.year, report_date.month, 1)].copy(), sm_ss_map or {}, ss_filter)
     if filter_nv and filter_nv != "Tất cả ĐDKD":
         df_mtd = df_mtd[df_mtd['Tên NVBH'] == filter_nv]
         
-    nv_list = sorted(df['Tên NVBH'].dropna().unique().tolist())
+    nv_list = sorted(df_mtd['Tên NVBH'].dropna().astype(str).unique().tolist())
     if not df_off_master.empty and 'Tên NV' in df_off_master.columns:
-        nv_list = sorted(list(set(nv_list + df_off_master['Tên NV'].dropna().unique().tolist())))
+        nv_list = sorted(list(set(nv_list + df_off_master['Tên NV'].dropna().astype(str).tolist())))
+    if not df_on_master.empty and 'Tên NV' in df_on_master.columns:
+        nv_list = sorted(list(set(nv_list + df_on_master['Tên NV'].dropna().astype(str).tolist())))
+    if ss_filter and ss_filter != 'Tất cả Mã SS':
+        allowed_names = {str(info.get('SM name','')).strip() for info in (sm_ss_map or {}).values()
+                         if str(info.get('Mã SS','')).strip() == str(ss_filter).strip()}
+        nv_list = [nv for nv in nv_list if nv in allowed_names]
 
     off_target_map = {}
     on_target_map = {}
@@ -707,7 +758,7 @@ def build_combo_matrix(df, report_date, df_off_master, df_on_master, filter_nv=N
     }])
     return pd.concat([df_out, total_row], ignore_index=True), tot_tgt_off, tot_tgt_on
 
-def build_summary_report(df, report_date, df_combo_off_raw, df_combo_on_raw, cat_df, brand_df, mcp_df, filter_nv=None, f_thu_list=None):
+def build_summary_report(df, report_date, df_combo_off_raw, df_combo_on_raw, cat_df, brand_df, mcp_df, filter_nv=None, f_thu_list=None, sm_ss_map=None, ss_filter='Tất cả Mã SS'):
     all_nvs = []
     if not mcp_df.empty:
         c_nv_mcp = find_col(mcp_df, ['SM Name', 'SM name', 'Tên NVBH', 'Nhân viên'])
@@ -726,6 +777,10 @@ def build_summary_report(df, report_date, df_combo_off_raw, df_combo_on_raw, cat
         if c_nv_brand: all_nvs.extend(brand_df[c_nv_brand].dropna().astype(str).tolist())
         
     nv_list = sorted(list(set([x.strip() for x in all_nvs if x.strip()])))
+    if ss_filter and ss_filter != 'Tất cả Mã SS':
+        allowed_names = {str(info.get('SM name','')).strip() for info in (sm_ss_map or {}).values()
+                         if str(info.get('Mã SS','')).strip() == str(ss_filter).strip()}
+        nv_list = [nv for nv in nv_list if nv in allowed_names]
     if filter_nv and filter_nv != "Tất cả ĐDKD":
         nv_list = [filter_nv] if filter_nv in nv_list else [filter_nv]
 
@@ -1086,6 +1141,8 @@ with st.spinner("Đang tải dữ liệu..."):
     df, mcp = load_main_data()
     targets = get_targets()
     turnover_targets = get_turnover_targets()
+    ss_master = get_ss_master()
+    sm_ss_map = get_sm_ss_map()
     df_cat = load_cat_data()
     df_brand = load_brand_data()
     df_combo_off, df_combo_on = load_combo_data()
@@ -1167,13 +1224,35 @@ with f3:
     selected_name = st.selectbox("", list(kpi_map.keys()), key="kpi", label_visibility="collapsed")
     selected_kpi = kpi_map[selected_name]
 
+# Bộ lọc theo Mã SS - toàn bộ báo cáo trên TAB KPI đều chạy theo SS được chọn
+ss_options = ['Tất cả Mã SS'] + ss_master['Mã SS'].astype(str).tolist() if not ss_master.empty else ['Tất cả Mã SS']
+saved_ss = st.query_params.get('ss', 'Tất cả Mã SS')
+if saved_ss not in ss_options:
+    saved_ss = 'Tất cả Mã SS'
+
+# Danh sách ĐDKD thuộc đúng Mã SS đang chọn
+if saved_ss == 'Tất cả Mã SS':
+    nv_list_filtered = nv_list
+else:
+    allowed_sm_names = {str(info.get('SM name','')).strip() for info in sm_ss_map.values()
+                        if str(info.get('Mã SS','')).strip() == str(saved_ss).strip()}
+    nv_list_filtered = [nv for nv in nv_list if nv in allowed_sm_names]
+
 f4, f5 = st.columns([1, 1])
 with f4:
-    st.markdown('<p class="filter-label">SALE SUP</p>', unsafe_allow_html=True)
-    st.selectbox("", ["Lê Minh Chiến Total"], key="sup", label_visibility="collapsed")
+    st.markdown('<p class="filter-label">MÃ SS</p>', unsafe_allow_html=True)
+    ss_filter = st.selectbox("", ss_options, index=ss_options.index(saved_ss), key="ss_filter", label_visibility="collapsed")
+    st.query_params['ss'] = ss_filter
 with f5:
     st.markdown('<p class="filter-label">ĐDKD (Nhân viên)</p>', unsafe_allow_html=True)
-    filter_nv = st.selectbox("", ["Tất cả ĐDKD"] + nv_list, key="ddkd", label_visibility="collapsed")
+    filter_options = ["Tất cả ĐDKD"] + nv_list_filtered
+    saved_nv = st.query_params.get('ddkd', 'Tất cả ĐDKD')
+    if saved_nv not in filter_options:
+        saved_nv = 'Tất cả ĐDKD'
+    filter_nv = st.selectbox("", filter_options, index=filter_options.index(saved_nv), key="ddkd", label_visibility="collapsed")
+    st.query_params['ddkd'] = filter_nv
+
+ss_name_display = get_ss_name(sm_ss_map, ss_filter)
 
 st.markdown("---")
 
@@ -1214,11 +1293,11 @@ with tab_kpi:
         st.query_params["sum_thu"] = ",".join(st.session_state.sum_thu_input) if st.session_state.sum_thu_input else ""
         st.query_params["sum_metrics"] = ",".join(selected_metrics)
 
-        df_summary = build_summary_report(df, report_date, df_combo_off, df_combo_on, df_cat, df_brand, mcp, filter_nv, f_thu_sum)
+        df_summary = build_summary_report(df, report_date, df_combo_off, df_combo_on, df_cat, df_brand, mcp, filter_nv, f_thu_sum, sm_ss_map, ss_filter)
         tot_row_s = df_summary.iloc[-1]
         
         st.markdown(f'<h3 style="color: #034ea2; font-weight: 800; margin-bottom: 0px; font-size: 15px;">7. BÁO CÁO TỔNG HỢP THEO NHÂN VIÊN - THÁNG {report_date.strftime("%m/%Y")}</h3>', unsafe_allow_html=True)
-        st.caption(f"⚡ Ngày: {report_date.strftime('%d/%m/%Y')} | Lọc NV: {filter_nv} | Lọc Thứ: {f_thu_sum if f_thu_sum else 'Tất cả'}")
+        st.caption(f"⚡ Ngày: {report_date.strftime('%d/%m/%Y')} | Mã SS: {ss_filter} - {ss_name_display} | Lọc NV: {filter_nv} | Lọc Thứ: {f_thu_sum if f_thu_sum else 'Tất cả'}")
         
         c1, c2, c3, c4 = st.columns(4)
         with c1: render_metric_card("Tổng VIP MCH", f"{tot_row_s['VIP MCH']:,}")
@@ -1238,14 +1317,14 @@ with tab_kpi:
         """, unsafe_allow_html=True)
         
     elif selected_kpi == "TURNOVER":
-        df_r, team_tgt, title = build_turnover_report(df, report_date, turnover_targets, filter_nv)
+        df_r, team_tgt, title = build_turnover_report(df, report_date, turnover_targets, filter_nv, sm_ss_map, ss_filter)
         total_row = df_r.iloc[-1]
         total_mtd = float(total_row['Doanh Số MTD'])
         total_today = float(total_row['Thực Hiện Ngày'])
         pct_team = total_row['% MTD']
         
         st.markdown(f'<h3 style="color: #034ea2; font-weight: 800; margin-bottom: 0px; font-size: 15px;">{title} - THÁNG {report_date.strftime("%m/%Y")}</h3>', unsafe_allow_html=True)
-        st.caption(f"⚡ Ngày: {report_date.strftime('%d/%m/%Y')} | Lọc: {filter_nv}")
+        st.caption(f"⚡ Ngày: {report_date.strftime('%d/%m/%Y')} | Mã SS: {ss_filter} - {ss_name_display} | Lọc NV: {filter_nv}")
         
         c1, c2, c3, c4 = st.columns(4)
         with c1: render_metric_card("🎯 Chỉ Tiêu DS", f"{team_tgt:,.0f}".replace(",", "."))
@@ -1278,13 +1357,13 @@ with tab_kpi:
         """, unsafe_allow_html=True)
 
     elif selected_kpi != "COMBO":
-        df_r, team_tgt, title = build_report(df, report_date, targets, selected_kpi, filter_nv)
+        df_r, team_tgt, title = build_report(df, report_date, targets, selected_kpi, filter_nv, sm_ss_map, ss_filter)
         total_row = df_r.iloc[-1]
         total_mtd = int(total_row['MTD'])
         total_ngay = int(total_row['Thực Hiện Ngày'])
         pct_team = total_row['% MTD']
         st.markdown(f'<h3 style="color: #034ea2; font-weight: 800; margin-bottom: 0px; font-size: 15px;">{title} - THÁNG {report_date.strftime("%m/%Y")}</h3>', unsafe_allow_html=True)
-        st.caption(f"⚡ Ngày: {report_date.strftime('%d/%m/%Y')} | Lọc: {filter_nv}")
+        st.caption(f"⚡ Ngày: {report_date.strftime('%d/%m/%Y')} | Mã SS: {ss_filter} - {ss_name_display} | Lọc NV: {filter_nv}")
         c1, c2, c3, c4 = st.columns(4)
         with c1: render_metric_card("🎯 Target", f"{team_tgt:,}")
         with c2: render_metric_card("📈 MTD", f"{total_mtd:,}")
@@ -1309,7 +1388,7 @@ with tab_kpi:
         </div>
         """, unsafe_allow_html=True)
     else:
-        df_combo, target_off_total, target_on_total = build_combo_matrix(df, report_date, df_combo_off, df_combo_on, filter_nv)
+        df_combo, target_off_total, target_on_total = build_combo_matrix(df, report_date, df_combo_off, df_combo_on, filter_nv, sm_ss_map, ss_filter)
         total_row = df_combo.iloc[-1]
         total_off = int(total_row['MTD (OFF)'])
         total_on = int(total_row['MTD (ON)'])
