@@ -155,14 +155,21 @@ def render_metric_card(label, value):
 
 # ====================== ĐƯỜNG DẪN ======================
 DATA_DIR = "data"
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR, exist_ok=True)
+
 RPT_PATH   = os.path.join(DATA_DIR, "RPT_061.xlsx")
 MCP_PATH   = os.path.join(DATA_DIR, "Data_MCP.xlsx")
 KPI_PATH   = os.path.join(DATA_DIR, "Target_KPI.xlsx")
 CAT_PATH   = "Data_Cat.xlsx"
 BRAND_PATH = "Data_Brand.xlsx"
 
-combo_off_files = [f for f in os.listdir(DATA_DIR) if "Combo" in f and "OFF" in f]
-combo_on_files  = [f for f in os.listdir(DATA_DIR) if "Combo" in f and "On" in f]
+try:
+    combo_off_files = [f for f in os.listdir(DATA_DIR) if "Combo" in f and "OFF" in f]
+    combo_on_files  = [f for f in os.listdir(DATA_DIR) if "Combo" in f and "On" in f]
+except FileNotFoundError:
+    combo_off_files, combo_on_files = [], []
+
 COMBO_OFF_PATH = os.path.join(DATA_DIR, combo_off_files[0]) if combo_off_files else os.path.join(DATA_DIR, "Chiến_Combo Kênh OFF.xlsx")
 COMBO_ON_PATH  = os.path.join(DATA_DIR, combo_on_files[0]) if combo_on_files else os.path.join(DATA_DIR, "Chiến_Combo Kênh On.xlsx")
 
@@ -1118,7 +1125,7 @@ def get_timegone_stats(target_date):
 
 tot_days, elapsed_days, remain_days, pct_tg = get_timegone_stats(default_date_t_minus_1)
 
-# Hiển thị bảng Timegone LÊN TRÊN CÙNG TRƯỚC BỘ LỌC (Responsive scale tối ưu mobile - Đã ẩn nội dung trong ngoặc)
+# Hiển thị bảng Timegone LÊN TRÊN CÙNG TRƯỚC BỘ LỌC
 st.markdown(f"""
 <div class="timegone-container" style="background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; margin: 5px 0 12px 0; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
     <div class="timegone-title" style="font-weight: 800; color: #1a365d; font-size: 12.5px; margin-bottom: 6px;">⏳ TIẾN ĐỘ THỜI GIAN THÁNG {default_date_t_minus_1.strftime('%m/%Y')}</div>
