@@ -557,10 +557,16 @@ def build_turnover_report(df, report_date, turnover_targets, filter_nv=None):
     
     results = []
     for sm in all_sms:
-        tgt = turnover_targets.get(sm, 0.0)
+        tgt = float(turnover_targets.get(sm, 0.0) or 0.0)
+
+        # TAB 8 - Chỉ hiển thị nhân viên có Chỉ Tiêu Doanh Số > 0.
+        # Nhân viên không có target (thiếu target hoặc target = 0) sẽ không xuất hiện trong bảng.
+        if tgt <= 0:
+            continue
+
         m = float(mtd_sales.get(sm, 0.0))
         t_val = float(today_sales.get(sm, 0.0))
-        pct = round(m / tgt * 100, 1) if tgt else 0.0
+        pct = round(m / tgt * 100, 1)
         results.append({
             'Mã NVBH': sm, 
             'Tên NVBH': sm_names.get(sm, ''), 
@@ -568,7 +574,7 @@ def build_turnover_report(df, report_date, turnover_targets, filter_nv=None):
             'Thực Hiện Ngày': t_val,
             'Doanh Số MTD': m, 
             '% MTD': f"{pct}%", 
-            '_ratio': (m / tgt if tgt else 0)
+            '_ratio': (m / tgt)
         })
         
     df_out = pd.DataFrame(results).sort_values('_ratio', ascending=True).drop(columns=['_ratio']).reset_index(drop=True)
