@@ -14,24 +14,7 @@ st.set_page_config(
 
 # ====================== LOGO ======================
 logo_svg = """
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 158.15 61.91" width="110" height="42">
-<title>Masan Group logo</title>
-<path d="M490.29,502.16s17.83-12.81,45.76-12.93c25.9-.11,30.18,8.14,38,10.79,0,0-3.8,5.82-5.78,9.63s-13.32,17.93-26.5,22.21c0,0,18.71-15.72,21.55-27.57,0,0-26.87-20.43-73.26-1.92" transform="translate(-432.92 -481.05)" style="fill:#f36f21"/>
-<path d="M521.55,489.11c42-10.64,59.59,9.56,59.59,9.56A60.39,60.39,0,0,1,561,521.3c11.28-1.28,21.79-13,24-16.69s6.16-9.17,6.16-9.17c-7.12-3.22-13.13-12-35.93-14.22-16.3-1.59-33.6,7.88-33.6,7.88" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M454.12,528V512.92a58.92,58.92,0,0_0.15-6.31l-.06,0-7.1,21.11h-3.41l-7.25-21h-.09c0,2.33.1,5.52.09,6.28v15h-3.24V502.39h4.8L445.1,524h.07l7.17-21.31h5V528Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M465.15,515c.21-1.42.7-3.56,4.21-3.58,2.94,0,4.35,1,4.37,3s-.87,2.12-1.62,2.19l-5.11.65c-5.13.67-5.58,4.26-5.57,5.81,0,3.16,2.42,5.3,5.8,5.29a8.32,8.32,0,0,0,6.64-3c.12,1.42.55,2.82,3.3,2.81a6.24,6.24,0,0,0,1.69-.36v-2.26a4.84,4.84,0,0,1-1,.14c-.63,0-1-.3-1-1.09l-.05-10.6c0-4.73-5.37-5.13-6.85-5.13-4.54,0-7.47,1.76-7.6,6.17Zm8.42,6.37c0,2.48-2.85,4.35-5.74,4.36-2.35,0-3.38-1.17-3.39-3.19,0-2.32,2.42-2.8,4-3,3.86-.52,4.64-.78,5.15-1.18Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M492.47,514.47c0-1.17-.47-3.12-4.44-3.1-1,0-3.7.34-3.7,2.64,0,1.53,1,1.88,3.4,2.46l3.14.77c3.89.94,5.27,2.35,5.27,4.87,0,3.83-3.15,6.14-7.37,6.16-7.39,0-7.94-4.21-8-6.44h3c.11,1.45.55,3.78,5,3.75,2.24,0,4.27-.89,4.26-3,0-1.47-1-2-3.72-2.63l-3.65-.88c-2.59-.62-4.31-1.91-4.34-4.46,0-4.09,3.39-6,7.05-6,6.66,0,7.17,4.87,7.17,5.78Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M502.6,514.75c.2-1.42.68-3.58,4.2-3.6,2.91,0,4.33,1.06,4.33,3s-.86,2.13-1.61,2.18l-5.1.66c-5.11.65-5.57,4.27-5.56,5.79,0,3.19,2.41,5.31,5.79,5.31a8.34,8.34,0,0,0,6.63-3c.11,1.41.53,2.83,3.28,2.8a5.87,5.87,0,0,0,1.68-.35l0-2.26a6.5,6.5,0,0,1-1,.15c-.62,0-1-.32-1-1.1l0-10.61c0-4.72-5.35-5.11-6.83-5.11-4.53,0-7.44,1.76-7.56,6.16Zm8.36,6.49c0,2.47-2.82,4.36-5.74,4.37-2.35,0-3.37-1.18-3.39-3.18,0-2.34,2.44-2.8,4-3,3.87-.51,4.65-.8,5.14-1.2Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M534.55,527.71h-3v-11.5c-.13-3.2-1.07-4.83-4.13-4.81-1.77,0-4.88,1.15-4.7,6.15v10.16h-3.24l-.07-18.56h2.72l0,2.66h.07a6.85,6.85,0,0,1,5.67-3.19c2.91,0,6.58,1.15,6.6,6.45Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M468,533.85a1.19,1.19,0,0,1,.07.34.6.6,0,0,1-.19.46.81.81,0,0,1-.51.21l-.54-.18q-.45-.15-.75-.23a2.37,2.37,0,0,0-.59-.08,2.27,2.27,0,0,0-1.47.49,3.1,3.1,0,0,0-.92,1.27,4.89,4.89,0,0,0-.35,1.64,5.25,5.25,0,0,0,.56,2.41,2.27,2.27,0,0,0,1.91,1.26.77.77,0,0,1,.27,0l.43-.06.37-.1.37-.15L467,541a1,1,0,0,1,.4-.11.54.54,0,0,1,.42.19.69.69,0,0,1,.17.48,1,1,0,0,1-.82,1,5.35,5.35,0,0,1-1.69.27,4.1,4.1,0,0,1-2.28-.63,4.15,4.15,0,0,1-1.5-1.71,5.52,5.52,0,0,1-.55-2.35,7.3,7.3,0,0,1,.25-1.93,5,5,0,0,1,.76-1.63,3.74,3.74,0,0,1,1.34-1.14,4.33,4.33,0,0,1,1.91-.45,4.73,4.73,0,0,1,1.68.27,1.72,1.72,0,0,1,.91.62" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M470.75,537.9a4.78,4.78,0,0,0,.63,2.45,2.13,2.13,0,0,0,2,1.1,2.3,2.3,0,0,0,1.48-.48,2.78,2.78,0,0,0,.88-1.28,5.69,5.69,0,0,0,.31-1.78,5.11,5.11,0,0,0-.3-1.78,2.94,2.94,0,0,0-.89-1.29,2.21,2.21,0,0,0-1.44-.48,2.3,2.3,0,0,0-1.44.46,2.82,2.82,0,0,0-.91,1.27,5.12,5.12,0,0,0-.31,1.82m-1.59,0a5.74,5.74,0,0,1,.54-2.53,4.26,4.26,0,0,1,1.51-1.76,4,4,0,0,1,4.42.06,4.39,4.39,0,0,1,1.47,1.8,5.8,5.8,0,0,1,.51,2.43,5.89,5.89,0,0,1-.51,2.46,4.25,4.25,0,0,1-1.47,1.79,4.11,4.11,0,0,1-4.49,0,4.31,4.31,0,0,1-1.48-1.8,5.85,5.85,0,0,1-.51-2.44" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M479.44,534.07a.79.79,0,0,1,.21-.58.7.7,0,0,1,.52-.21.73.73,0,0,1,.53.21.78.78,0,0,1,.22.59v.14l0,0a3,3,0,0,1,1.13-.91,3.31,3.31,0,0,1,1.43-.32,3.46,3.46,0,0,1,1.63.4,3,3,0,0,1,1.21,1.21,4,4,0,0,1,.46,2V542a.68.68,0,0,1-.22.54.77.77,0,0,1-.53.19.73.73,0,0,1-.51-.19.69.69,0,0,1-.21-.53v-5.36a2.16,2.16,0,0,0-.65-1.67,2.21,2.21,0,0,0-1.55-.6,2.32,2.32,0,0,0-1.09.26,2,2,0,0,0-.82.79,2.41,2.41,0,0,0-.31,1.25v5.05a.81.81,0,0,1-.2.59.68.68,0,0,1-.51.21.74.74,0,0,1-.54-.22.77.77,0,0,1-.23-.58Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M488.69,541.75a1.05,1.05,0,0,1-.44-.77.7.7,0,0,1,.2-.49.64.64,0,0,1,.49-.21,1,1,0,0,1,.46.13,6.25,6.25,0,0,1,.57.37,3.06,3.06,0,0,0,.49.31,3,3,0,0,0,1.34.36,2.88,2.88,0,0,0,1.37-.32,1.06,1.06,0,0,0,.6-1A1.24,1.24,0,0,0,493,539a9.34,9.34,0,0,0-1.39-.65q-1-.4-1.55-.68a3.05,3.05,0,0,1-1-.79,1.94,1.94,0,0,1-.42-1.28,2.36,2.36,0,0,1,.39-1.31,2.79,2.79,0,0,1,1.11-1,4,4,0,0,1,1.64-.4,5,5,0,0,1,1.71.3,3.57,3.57,0,0,1,1.22.66,1.1,1.1,0,0,1,.38.74.65.65,0,0,1-.21.47.78.78,0,0,1-.5.23,4.06,4.06,0,0,1-.89-.41c-.39-.22-.67-.38-.86-.46a1.78,1.78,0,0,0-.69-.15,2,2,0,0,0-1.28.35,1.16,1.16,0,0,0-.46.86,1.34,1.34,0,0,0,.42.75,2.92,2.92,0,0,0,.78.52q.44.2,1.07.41c.42.14.71.25.87.32a3.77,3.77,0,0,1,1.54,1,2.2,2.2,0,0,1,.47,1.42,2.72,2.72,0,0,1-.42,1.37,2.86,2.86,0,0,1-1.19,1,4.49,4.49,0,0,1-2,.41,4.67,4.67,0,0,1-3.14-1.06" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M496.81,533.76a.74.74,0,0,1,.21-.56.71.71,0,0,1,.52-.21.74.74,0,0,1,.53.2.73.73,0,0,1,.22.56V539a2.75,2.75,0,0,0,.58,1.85,2.16,2.16,0,0,0,1.74.69q2.38,0,2.38-2.53v-5.22a.74.74,0,0,1,.21-.56.71.71,0,0,1,.51-.21.74.74,0,0,1,.53.2.73.73,0,0,1,.22.56v5.3a4.35,4.35,0,0,1-.4,1.86,3.14,3.14,0,0,1-1.27,1.38,4.23,4.23,0,0,1-2.22.53,4,4,0,0,1-2.11-.51,3.14,3.14,0,0,1-1.25-1.37,4.36,4.36,0,0,1-.4-1.88Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M506.53,533.81a.7.7,0,0,1,.22-.53.76.76,0,0,1,.54-.21.68.68,0,0,1,.51.2.84.84,0,0,1,.2.61v.3h.94a2.69,2.69,0,0,1,2.29-1.15,2.75,2.75,0,0,1,2.4,1.62,3.7,3.7,0,0,1,1.29-1.26,3.26,3.26,0,0,1,1.53-.36,3,3,0,0,1,1.52.44,3,3,0,0,1,1.1,1.21,3.92,3.92,0,0,1,.41,1.84v5.58a.74.74,0,0,1-.22.57.74.74,0,0,1-.53.21.7.7,0,0,1-.5-.22.76.76,0,0,1-.22-.56v-5.54a2.57,2.57,0,0,0-.27-1.21,1.78,1.78,0,0,0-.72-.76,2.08,2.08,0,0,0-1-.25,2.2,2.2,0,0,0-1.51.53,2.14,2.14,0,0,0-.6,1.69v5.5a.62.62,0,0,1-.22.51.8.8,0,0,1-.53.18.75.75,0,0,1-.5-.18.63.63,0,0,1-.22-.5v-5.34a2.48,2.48,0,0,0-.63-1.87,2.18,2.18,0,0,0-1.57-.6,2.85,2.85,0,0,0-1.12.26,1.84,1.84,0,0,0-.8.74,2.45,2.45,0,0,0-.3,1.28v5.57a.75.75,0,0,1-.22.57.73.73,0,0,1-.52.21.7.7,0,0,1-.51-.22.75.75,0,0,1-.22-.56Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M522.43,537.42h5.42a3.31,3.31,0,0,0-.7-2.13,2.38,2.38,0,0,0-1.86-.83,2.53,2.53,0,0,0-1.94.78,3.25,3.25,0,0,0-.79,2.18m-1.59.47a6.14,6.14,0,0,1,.56-2.34,4.52,4.52,0,0,1,1.46-1.79,3.92,3.92,0,0,1,4.43,0,4.44,4.44,0,0,1,1.49,1.78,5.34,5.34,0,0,1,.53,2.31q0,.78-.88.78h-6a3.22,3.22,0,0,0,.41,1.62,2.5,2.5,0,0,0,1.05,1,3.23,3.23,0,0,0,1.46.33,3.91,3.91,0,0,0,2.58-1,1.26,1.26,0,0,1,.6-.29.49.49,0,0,1,.41.2.78.78,0,0,1,.15.47.9.9,0,0,1-.23.58,4.46,4.46,0,0,1-1.5,1,5.2,5.2,0,0,1-2.09.42,4.42,4.42,0,0,1-2-.44,3.84,3.84,0,0,1-1.39-1.17,5,5,0,0,1-.77-1.58,6.65,6.65,0,0,1-.26-1.72l0-.06v0" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-<path d="M531,534a.83.83,0,0,1,.21-.59.69.69,0,0,1,.52-.22.72.72,0,0,1,.53.22.81.81,0,0,1,.22.6v.81h0a4.3,4.3,0,0,1,.87-1.13,1.77,1.77,0,0,1,1.13-.53.85.85,0,0,1,.59.23.76.76,0,0,1,.26.58.69.69,0,0,1-.26.6,2.4,2.4,0,0,1-.76.33,3.19,3.19,0,0,0-.65.23,2.54,2.54,0,0,0-1.2,2.4v4.66a.84.84,0,0,1-.2.6.68.68,0,0,1-.51.21.73.73,0,0,1-.54-.22.86.86,0,0,1-.22-.63Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 158.15 61.91" width="130" height="50"><title>Masan Group logo</title><path d="M490.29,502.16s17.83-12.81,45.76-12.93c25.9-.11,30.18,8.14,38,10.79,0,0-3.8,5.82-5.78,9.63s-13.32,17.93-26.5,22.21c0,0,18.71-15.72,21.55-27.57,0,0-26.87-20.43-73.26-1.92" transform="translate(-432.92 -481.05)" style="fill:#f36f21"/><path d="M521.55,489.11c42-10.64,59.59,9.56,59.59,9.56A60.39,60.39,0,0,1,561,521.3c11.28-1.28,21.79-13,24-16.69s6.16-9.17,6.16-9.17c-7.12-3.22-13.13-12-35.93-14.22-16.3-1.59-33.6,7.88-33.6,7.88" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M454.12,528V512.92a58.92,58.92,0,0,1-.15-6.31l-.06,0-7.1,21.11h-3.41l-7.25-21h-.09c0,2.33.1,5.52.09,6.28v15h-3.24V502.39h4.8L445.1,524h.07l7.17-21.31h5V528Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M465.15,515c.21-1.42.7-3.56,4.21-3.58,2.94,0,4.35,1,4.37,3s-.87,2.12-1.62,2.19l-5.11.65c-5.13.67-5.58,4.26-5.57,5.81,0,3.16,2.42,5.3,5.8,5.29a8.32,8.32,0,0,0,6.64-3c.12,1.42.55,2.82,3.3,2.81a6.24,6.24,0,0,0,1.69-.36v-2.26a4.84,4.84,0,0,1-1,.14c-.63,0-1-.3-1-1.09l-.05-10.6c0-4.73-5.37-5.13-6.85-5.13-4.54,0-7.47,1.76-7.6,6.17Zm8.42,6.37c0,2.48-2.85,4.35-5.74,4.36-2.35,0-3.38-1.17-3.39-3.19,0-2.32,2.42-2.8,4-3,3.86-.52,4.64-.78,5.15-1.18Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M492.47,514.47c0-1.17-.47-3.12-4.44-3.1-1,0-3.7.34-3.7,2.64,0,1.53,1,1.88,3.4,2.46l3.14.77c3.89.94,5.27,2.35,5.27,4.87,0,3.83-3.15,6.14-7.37,6.16-7.39,0-7.94-4.21-8-6.44h3c.11,1.45.55,3.78,5,3.75,2.24,0,4.27-.89,4.26-3,0-1.47-1-2-3.72-2.63l-3.65-.88c-2.59-.62-4.31-1.91-4.34-4.46,0-4.09,3.39-6,7.05-6,6.66,0,7.17,4.87,7.17,5.78Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M502.6,514.75c.2-1.42.68-3.58,4.2-3.6,2.91,0,4.33,1.06,4.33,3s-.86,2.13-1.61,2.18l-5.1.66c-5.11.65-5.57,4.27-5.56,5.79,0,3.19,2.41,5.31,5.79,5.31a8.34,8.34,0,0,0,6.63-3c.11,1.41.53,2.83,3.28,2.8a5.87,5.87,0,0,0,1.68-.35l0-2.26a6.5,6.5,0,0,1-1,.15c-.62,0-1-.32-1-1.1l0-10.61c0-4.72-5.35-5.11-6.83-5.11-4.53,0-7.44,1.76-7.56,6.16Zm8.36,6.49c0,2.47-2.82,4.36-5.74,4.37-2.35,0-3.37-1.18-3.39-3.18,0-2.34,2.44-2.8,4-3,3.87-.51,4.65-.8,5.14-1.2Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M534.55,527.71h-3v-11.5c-.13-3.2-1.07-4.83-4.13-4.81-1.77,0-4.88,1.15-4.7,6.15v10.16h-3.24l-.07-18.56h2.72l0,2.66h.07a6.85,6.85,0,0,1,5.67-3.19c2.91,0,6.58,1.15,6.6,6.45Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M468,533.85a1.19,1.19,0,0,1,.07.34.6.6,0,0,1-.19.46.81.81,0,0,1-.51.21l-.54-.18q-.45-.15-.75-.23a2.37,2.37,0,0,0-.59-.08,2.27,2.27,0,0,0-1.47.49,3.1,3.1,0,0,0-.92,1.27,4.89,4.89,0,0,0-.35,1.64,5.25,5.25,0,0,0,.56,2.41,2.27,2.27,0,0,0,1.91,1.26.77.77,0,0,1,.27,0l.43-.06.37-.1.37-.15L467,541a1,1,0,0,1,.4-.11.54.54,0,0,1,.42.19.69.69,0,0,1,.17.48,1,1,0,0,1-.82,1,5.35,5.35,0,0,1-1.69.27,4.1,4.1,0,0,1-2.28-.63,4.15,4.15,0,0,1-1.5-1.71,5.52,5.52,0,0,1-.55-2.35,7.3,7.3,0,0,1,.25-1.93,5,5,0,0,1,.76-1.63,3.74,3.74,0,0,1,1.34-1.14,4.33,4.33,0,0,1,1.91-.45,4.73,4.73,0,0,1,1.68.27,1.72,1.72,0,0,1,.91.62" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M470.75,537.9a4.78,4.78,0,0,0,.63,2.45,2.13,2.13,0,0,0,2,1.1,2.3,2.3,0,0,0,1.48-.48,2.78,2.78,0,0,0,.88-1.28,5.69,5.69,0,0,0,.31-1.78,5.11,5.11,0,0,0-.3-1.78,2.94,2.94,0,0,0-.89-1.29,2.21,2.21,0,0,0-1.44-.48,2.3,2.3,0,0,0-1.44.46,2.82,2.82,0,0,0-.91,1.27,5.12,5.12,0,0,0-.31,1.82m-1.59,0a5.74,5.74,0,0,1,.54-2.53,4.26,4.26,0,0,1,1.51-1.76,4,4,0,0,1,4.42.06,4.39,4.39,0,0,1,1.47,1.8,5.8,5.8,0,0,1,.51,2.43,5.89,5.89,0,0,1-.51,2.46,4.25,4.25,0,0,1-1.47,1.79,4.11,4.11,0,0,1-4.49,0,4.31,4.31,0,0,1-1.48-1.8,5.85,5.85,0,0,1-.51-2.44" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M479.44,534.07a.79.79,0,0,1,.21-.58.7.7,0,0,1,.52-.21.73.73,0,0,1,.53.21.78.78,0,0,1,.22.59v.14l0,0a3,3,0,0,1,1.13-.91,3.31,3.31,0,0,1,1.43-.32,3.46,3.46,0,0,1,1.63.4,3,3,0,0,1,1.21,1.21,4,4,0,0,1,.46,2V542a.68.68,0,0,1-.22.54.77.77,0,0,1-.53.19.73.73,0,0,1-.51-.19.69.69,0,0,1-.21-.53v-5.36a2.16,2.16,0,0,0-.65-1.67,2.21,2.21,0,0,0-1.55-.6,2.32,2.32,0,0,0-1.09.26,2,2,0,0,0-.82.79,2.41,2.41,0,0,0-.31,1.25v5.05a.81.81,0,0,1-.2.59.68.68,0,0,1-.51.21.74.74,0,0,1-.54-.22.77.77,0,0,1-.23-.58Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M488.69,541.75a1.05,1.05,0,0,1-.44-.77.7.7,0,0,1,.2-.49.64.64,0,0,1,.49-.21,1,1,0,0,1,.46.13,6.25,6.25,0,0,1,.57.37,3.06,3.06,0,0,0,.49.31,3,3,0,0,0,1.34.36,2.88,2.88,0,0,0,1.37-.32,1.06,1.06,0,0,0,.6-1A1.24,1.24,0,0,0,493,539a9.34,9.34,0,0,0-1.39-.65q-1-.4-1.55-.68a3.05,3.05,0,0,1-1-.79,1.94,1.94,0,0,1-.42-1.28,2.36,2.36,0,0,1,.39-1.31,2.79,2.79,0,0,1,1.11-1,4,4,0,0,1,1.64-.4,5,5,0,0,1,1.71.3,3.57,3.57,0,0,1,1.22.66,1.1,1.1,0,0,1,.38.74.65.65,0,0,1-.21.47.78.78,0,0,1-.5.23,4.06,4.06,0,0,1-.89-.41c-.39-.22-.67-.38-.86-.46a1.78,1.78,0,0,0-.69-.15,2,2,0,0,0-1.28.35,1.16,1.16,0,0,0-.46.86,1.34,1.34,0,0,0,.42.75,2.92,2.92,0,0,0,.78.52q.44.2,1.07.41c.42.14.71.25.87.32a3.77,3.77,0,0,1,1.54,1,2.2,2.2,0,0,1,.47,1.42,2.72,2.72,0,0,1-.42,1.37,2.86,2.86,0,0,1-1.19,1,4.49,4.49,0,0,1-2,.41,4.67,4.67,0,0,1-3.14-1.06" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M496.81,533.76a.74.74,0,0,1,.21-.56.71.71,0,0,1,.52-.21.74.74,0,0,1,.53.2.73.73,0,0,1,.22.56V539a2.75,2.75,0,0,0,.58,1.85,2.16,2.16,0,0,0,1.74.69q2.38,0,2.38-2.53v-5.22a.74.74,0,0,1,.21-.56.71.71,0,0,1,.51-.21.74.74,0,0,1,.53.2.73.73,0,0,1,.22.56v5.3a4.35,4.35,0,0,1-.4,1.86,3.14,3.14,0,0,1-1.27,1.38,4.23,4.23,0,0,1-2.22.53,4,4,0,0,1-2.11-.51,3.14,3.14,0,0,1-1.25-1.37,4.36,4.36,0,0,1-.4-1.88Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M506.53,533.81a.7.7,0,0,1,.22-.53.76.76,0,0,1,.54-.21.68.68,0,0,1,.51.2.84.84,0,0,1,.2.61v.3h.94a2.69,2.69,0,0,1,2.29-1.15,2.75,2.75,0,0,1,2.4,1.62,3.7,3.7,0,0,1,1.29-1.26,3.26,3.26,0,0,1,1.53-.36,3,3,0,0,1,1.52.44,3,3,0,0,1,1.1,1.21,3.92,3.92,0,0,1,.41,1.84v5.58a.74.74,0,0,1-.22.57.74.74,0,0,1-.53.21.7.7,0,0,1-.5-.22.76.76,0,0,1-.22-.56v-5.54a2.57,2.57,0,0,0-.27-1.21,1.78,1.78,0,0,0-.72-.76,2.08,2.08,0,0,0-1-.25,2.2,2.2,0,0,0-1.51.53,2.14,2.14,0,0,0-.6,1.69v5.5a.62.62,0,0,1-.22.51.8.8,0,0,1-.53.18.75.75,0,0,1-.5-.18.63.63,0,0,1-.22-.5v-5.34a2.48,2.48,0,0,0-.63-1.87,2.18,2.18,0,0,0-1.57-.6,2.85,2.85,0,0,0-1.12.26,1.84,1.84,0,0,0-.8.74,2.45,2.45,0,0,0-.3,1.28v5.57a.75.75,0,0,1-.22.57.73.73,0,0,1-.52.21.7.7,0,0,1-.51-.22.75.75,0,0,1-.22-.56Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M522.43,537.42h5.42a3.31,3.31,0,0,0-.7-2.13,2.38,2.38,0,0,0-1.86-.83,2.53,2.53,0,0,0-1.94.78,3.25,3.25,0,0,0-.79,2.18m-1.59.47a6.14,6.14,0,0,1,.56-2.34,4.52,4.52,0,0,1,1.46-1.79,3.92,3.92,0,0,1,4.43,0,4.44,4.44,0,0,1,1.49,1.78,5.34,5.34,0,0,1,.53,2.31q0,.78-.88.78h-6a3.22,3.22,0,0,0,.41,1.62,2.5,2.5,0,0,0,1.05,1,3.23,3.23,0,0,0,1.46.33,3.91,3.91,0,0,0,2.58-1,1.26,1.26,0,0,1,.6-.29.49.49,0,0,1,.41.2.78.78,0,0,1,.15.47.9.9,0,0,1-.23.58,4.46,4.46,0,0,1-1.5,1,5.2,5.2,0,0,1-2.09.42,4.42,4.42,0,0,1-2-.44,3.84,3.84,0,0,1-1.39-1.17,5,5,0,0,1-.77-1.58,6.65,6.65,0,0,1-.26-1.72l0-.06v0" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/><path d="M531,534a.83.83,0,0,1,.21-.59.69.69,0,0,1,.52-.22.72.72,0,0,1,.53.22.81.81,0,0,1,.22.6v.81h0a4.3,4.3,0,0,1,.87-1.13,1.77,1.77,0,0,1,1.13-.53.85.85,0,0,1,.59.23.76.76,0,0,1,.26.58.69.69,0,0,1-.26.6,2.4,2.4,0,0,1-.76.33,3.19,3.19,0,0,0-.65.23,2.54,2.54,0,0,0-1.2,2.4v4.66a.84.84,0,0,1-.2.6.68.68,0,0,1-.51.21.73.73,0,0,1-.54-.22.86.86,0,0,1-.22-.63Z" transform="translate(-432.92 -481.05)" style="fill:#034ea2"/></svg>
 """
 
 # ====================== CSS ======================
@@ -52,10 +35,20 @@ st.markdown(
     .main-header .logo {
         flex-shrink: 0;
         background: white;
-        border-radius: 6px;
-        padding: 4px 6px;
+        border-radius: 8px;
+        padding: 6px 10px;
         display: flex;
         align-items: center;
+        justify-content: center;
+        overflow: visible;
+        min-width: 140px;
+        min-height: 52px;
+    }
+    .main-header .logo svg {
+        display: block;
+        width: 130px;
+        height: 50px;
+        max-width: 100%;
     }
     .main-header .title-block { flex: 1; text-align: center; }
     .main-header h1 {
@@ -152,6 +145,73 @@ st.markdown(
     .custom-kpi-table tbody tr:nth-child(odd) {
         background-color: #ffffff !important;
     }
+
+    /* MBS group cards - responsive */
+    .mbs-card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+    .mbs-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 12px 14px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        min-height: 0;
+    }
+    .mbs-card-title {
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        line-height: 1.3;
+    }
+    .mbs-card-kh {
+        font-size: 20px;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+    .mbs-card-kh span {
+        font-size: 13px;
+        font-weight: 600;
+        color: #718096;
+    }
+    .mbs-card-pct {
+        font-size: 11px;
+        color: #718096;
+        margin: 2px 0 6px 0;
+    }
+    .mbs-card-footer {
+        border-top: 1px solid #e2e8f0;
+        padding-top: 6px;
+        font-size: 11px;
+        color: #4a5568;
+        line-height: 1.4;
+    }
+    @media (max-width: 768px) {
+        .mbs-card-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .mbs-card {
+            padding: 8px 10px;
+            border-radius: 8px;
+        }
+        .mbs-card-title { font-size: 10px; margin-bottom: 2px; }
+        .mbs-card-kh { font-size: 16px; }
+        .mbs-card-kh span { font-size: 11px; }
+        .mbs-card-pct { font-size: 10px; margin: 1px 0 4px 0; }
+        .mbs-card-footer { font-size: 10px; padding-top: 4px; }
+    }
+    @media (max-width: 400px) {
+        .mbs-card-grid {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+        .mbs-card { padding: 8px 10px; }
+        .mbs-card-kh { font-size: 18px; }
+    }
+
 </style>
 """,
     unsafe_allow_html=True,
@@ -401,6 +461,35 @@ def find_col(df, candidates):
     if c.lower() in cols:
       return cols[c.lower()]
   return None
+
+
+
+def nv_selected(filter_nv):
+  """True nếu đang lọc NV cụ thể (list/str không rỗng, không phải Tất cả)."""
+  if filter_nv is None:
+    return False
+  if isinstance(filter_nv, list):
+    return len(filter_nv) > 0 and 'Tất cả ĐDKD' not in filter_nv
+  return str(filter_nv).strip() not in ('', 'Tất cả ĐDKD')
+
+
+def nv_label(filter_nv):
+  if not nv_selected(filter_nv):
+    return 'Tất cả ĐDKD'
+  if isinstance(filter_nv, list):
+    return ', '.join(str(x) for x in filter_nv)
+  return str(filter_nv)
+
+
+def filter_df_by_nv(df, col, filter_nv):
+  """Lọc DataFrame theo cột NV; hỗ trợ list (multi) hoặc str."""
+  if df is None or df.empty or not col or col not in df.columns:
+    return df
+  if not nv_selected(filter_nv):
+    return df
+  vals = filter_nv if isinstance(filter_nv, list) else [filter_nv]
+  return df[df[col].astype(str).str.strip().isin([str(v).strip() for v in vals])]
+
 
 
 def filter_by_thu_multi(df, col_thu, f_thu_list):
@@ -768,8 +857,8 @@ def build_report(
   df_mtd = df[
       df['date'] >= date(report_date.year, report_date.month, 1)
   ].copy()
-  if filter_nv and filter_nv != 'Tất cả ĐDKD':
-    df_mtd = df_mtd[df_mtd['Tên NVBH'] == filter_nv]
+  if nv_selected(filter_nv):
+    df_mtd = filter_df_by_nv(df_mtd, 'Tên NVBH', filter_nv)
   sm_names = df_mtd.groupby('Mã NVBH')['Tên NVBH'].first().to_dict()
   all_sms = sorted(sm_names.keys())
 
@@ -801,8 +890,8 @@ def build_report(
         .nunique()
     )
     df_today = df[df['date'] == report_date]
-    if filter_nv and filter_nv != 'Tất cả ĐDKD':
-      df_today = df_today[df_today['Tên NVBH'] == filter_nv]
+    if nv_selected(filter_nv):
+      df_today = filter_df_by_nv(df_today, 'Tên NVBH', filter_nv)
     off_t = df_today[
         (df_today['L1'] == 'Kênh Off Premise')
         & ~df_today['Sub Division']
@@ -824,8 +913,8 @@ def build_report(
     mtd = on_mtd.groupby('Mã NVBH')['Mã CH'].nunique()
 
     df_today = df[df['date'] == report_date]
-    if filter_nv and filter_nv != 'Tất cả ĐDKD':
-      df_today = df_today[df_today['Tên NVBH'] == filter_nv]
+    if nv_selected(filter_nv):
+      df_today = filter_df_by_nv(df_today, 'Tên NVBH', filter_nv)
     on_today = df_today[df_today['L1'] == 'Kênh On Premise']
     ngay = on_today.groupby('Mã NVBH')['Mã đơn hàng'].nunique()
 
@@ -857,8 +946,8 @@ def build_report(
         .nunique()
     )
     df_today = df[df['date'] == report_date]
-    if filter_nv and filter_nv != 'Tất cả ĐDKD':
-      df_today = df_today[df_today['Tên NVBH'] == filter_nv]
+    if nv_selected(filter_nv):
+      df_today = filter_df_by_nv(df_today, 'Tên NVBH', filter_nv)
     on_t = df_today[df_today['L1'] == 'Kênh On Premise']
     tea_t = on_t[
         on_t['Tên SP lower'].str.contains(
@@ -938,8 +1027,8 @@ def build_report(
       'Mã NVBH': 'TỔNG CỘNG',
       'Tên NVBH': (
           'SS Lê Minh Chiến Total'
-          if filter_nv == 'Tất cả ĐDKD'
-          else filter_nv
+          if not nv_selected(filter_nv)
+          else nv_label(filter_nv)
       ),
       'Chỉ Tiêu KPI': team_tgt,
       'Thực Hiện Ngày': total_ngay,
@@ -955,9 +1044,9 @@ def build_turnover_report(df, report_date, turnover_targets, filter_nv=None):
   ].copy()
   df_today = df[df['date'] == report_date].copy()
 
-  if filter_nv and filter_nv != 'Tất cả ĐDKD':
-    df_mtd = df_mtd[df_mtd['Tên NVBH'] == filter_nv]
-    df_today = df_today[df_today['Tên NVBH'] == filter_nv]
+  if nv_selected(filter_nv):
+    df_mtd = filter_df_by_nv(df_mtd, 'Tên NVBH', filter_nv)
+    df_today = filter_df_by_nv(df_today, 'Tên NVBH', filter_nv)
 
   sm_names = df_mtd.groupby('Mã NVBH')['Tên NVBH'].first().to_dict()
   all_sms = sorted(sm_names.keys())
@@ -1010,8 +1099,8 @@ def build_turnover_report(df, report_date, turnover_targets, filter_nv=None):
       'Mã NVBH': 'TỔNG CỘNG',
       'Tên NVBH': (
           'SS Lê Minh Chiến Total'
-          if filter_nv == 'Tất cả ĐDKD'
-          else filter_nv
+          if not nv_selected(filter_nv)
+          else nv_label(filter_nv)
       ),
       'Chỉ Tiêu Doanh Số': team_tgt,
       'Thực Hiện Ngày': total_today,
@@ -1046,10 +1135,10 @@ def build_visit_report(
     )
 
   mcp_f = df_mcp.copy()
-  if filter_nv and filter_nv != 'Tất cả ĐDKD':
+  if nv_selected(filter_nv):
     c_nv = find_col(mcp_f, ['SM Name', 'SM name', 'Tên NVBH', 'Nhân viên'])
     if c_nv:
-      mcp_f = mcp_f[mcp_f[c_nv].astype(str).str.strip() == filter_nv]
+      mcp_f = filter_df_by_nv(mcp_f, c_nv, filter_nv)
 
   if f_thu_list:
     c_thu = find_col(mcp_f, ['Thứ', 'Frequency', 'Tần suất'])
@@ -1402,8 +1491,8 @@ def build_combo_matrix(
   df_mtd = df[
       df['date'] >= date(report_date.year, report_date.month, 1)
   ].copy()
-  if filter_nv and filter_nv != 'Tất cả ĐDKD':
-    df_mtd = df_mtd[df_mtd['Tên NVBH'] == filter_nv]
+  if nv_selected(filter_nv):
+    df_mtd = filter_df_by_nv(df_mtd, 'Tên NVBH', filter_nv)
 
   nv_list = sorted(df['Tên NVBH'].dropna().unique().tolist())
   if not df_off_master.empty and 'Tên NV' in df_off_master.columns:
@@ -1500,7 +1589,9 @@ def build_combo_matrix(
 
   rows = []
   for idx, nv in enumerate(nv_list, 1):
-    if filter_nv and filter_nv != 'Tất cả ĐDKD' and nv != filter_nv:
+    if nv_selected(filter_nv) and nv not in (
+        filter_nv if isinstance(filter_nv, list) else [filter_nv]
+    ):
       continue
     tgt_off = int(off_target_map.get(nv, 0))
     m_off = int(off_mtd.get(nv, 0))
@@ -1540,13 +1631,27 @@ def build_combo_matrix(
 
   tot_tgt_off = (
       int(sum(off_target_map.values()))
-      if not filter_nv or filter_nv == 'Tất cả ĐDKD'
-      else int(sum([off_target_map.get(filter_nv, 0)]))
+      if not nv_selected(filter_nv)
+      else int(
+          sum(
+              off_target_map.get(v, 0)
+              for v in (
+                  filter_nv if isinstance(filter_nv, list) else [filter_nv]
+              )
+          )
+      )
   )
   tot_tgt_on = (
       int(sum(on_target_map.values()))
-      if not filter_nv or filter_nv == 'Tất cả ĐDKD'
-      else int(sum([on_target_map.get(filter_nv, 0)]))
+      if not nv_selected(filter_nv)
+      else int(
+          sum(
+              on_target_map.get(v, 0)
+              for v in (
+                  filter_nv if isinstance(filter_nv, list) else [filter_nv]
+              )
+          )
+      )
   )
 
   tot_m_off = int(df_out['MTD (OFF)'].sum()) if not df_out.empty else 0
@@ -1566,8 +1671,8 @@ def build_combo_matrix(
       'Mã NVBH': 'TỔNG CỘNG',
       'Tên NVBH': (
           'SS Lê Minh Chiến Total'
-          if filter_nv == 'Tất cả ĐDKD'
-          else filter_nv
+          if not nv_selected(filter_nv)
+          else nv_label(filter_nv)
       ),
       'Target (OFF)': tot_tgt_off,
       'Phát sinh Ngày (OFF)': tot_n_off,
@@ -1617,8 +1722,9 @@ def build_summary_report(
       all_nvs.extend(brand_df[c_nv_brand].dropna().astype(str).tolist())
 
   nv_list = sorted(list(set([x.strip() for x in all_nvs if x.strip()])))
-  if filter_nv and filter_nv != 'Tất cả ĐDKD':
-    nv_list = [filter_nv] if filter_nv in nv_list else [filter_nv]
+  if nv_selected(filter_nv):
+    vals = filter_nv if isinstance(filter_nv, list) else [filter_nv]
+    nv_list = [v for v in vals if v in nv_list] or list(vals)
 
   effective_thu_list = list(f_thu_list) if f_thu_list else []
   mcp_filtered = mcp_df.copy()
@@ -2182,7 +2288,7 @@ def render_html_table(df):
       if pd.isna(val):
         val = ''
 
-      if col in ['% MTD', '% MTD (OFF)', '% MTD (ON)', '% Hoàn Thành']:
+      if col in ['% MTD', '% MTD (OFF)', '% MTD (ON)', '% Hoàn Thành', '% TH']:
         style_bg = color_pct_bg(val)
         if is_total:
           html.append(
@@ -2246,6 +2352,422 @@ def render_html_table(df):
   html.append('</tbody>')
   html.append('</table></div>')
   return ''.join(html)
+
+
+
+# ====================== BÁO CÁO MBS CAT (6 NHÓM) ======================
+
+def check_mbs_mission(df_outlet, member_type, col_loai='_loai', col_actual='_actual'):
+  """Kiểm tra đạt nhiệm vụ theo Member type (CAT1/2/3 hoặc BRAND1/2/3).
+
+  CAT1 / BRAND1: >= 1 NEW có DS >= 200.000
+  CAT2 / BRAND2: Duy trì đủ FOCUS, mỗi FOCUS >= 200.000 (KHÔNG bắt buộc NEW)
+  CAT3 / BRAND3: Duy trì đủ FOCUS (>=200k mỗi cái) VÀ >= 1 NEW >= 200.000
+  """
+  mt = str(member_type or '').strip().upper().replace(' ', '')
+  loai = df_outlet[col_loai].astype(str).str.upper()
+  act = pd.to_numeric(df_outlet[col_actual], errors='coerce').fillna(0)
+
+  has_new = bool(((loai.str.contains('NEW', na=False)) & (act >= 200000)).any())
+
+  focus_mask = loai.str.contains('FOCUS', na=False)
+  if focus_mask.any():
+    # Mỗi dòng FOCUS phải >= 200.000
+    all_focus_ok = bool((act[focus_mask] >= 200000).all())
+  else:
+    # Không có FOCUS nào trong data -> coi như không cần duy trì FOCUS
+    all_focus_ok = True
+
+  if mt in ('CAT1', 'BRAND1'):
+    return has_new
+  if mt in ('CAT2', 'BRAND2'):
+    return all_focus_ok  # không bắt buộc NEW
+  if mt in ('CAT3', 'BRAND3'):
+    return all_focus_ok and has_new
+  # fallback: giữ logic cũ
+  return has_new
+
+
+def build_mbs_cat_report(df_cat, filter_nv=None, mcp_df=None):
+  """Phân loại KH MBS CAT thành 6 nhóm.
+  Target = Doanh số nền tảng của OUTLET
+  Actual = Tổng Doanh số thực đạt của CAT (sau CK)
+  Nhiệm vụ = có >= 1 Cat NEW với DS >= 200.000
+  Thứ VT lấy từ Data_MCP (cột Thứ) theo Outlet Code
+  """
+  empty = {'groups': {}, 'df_detail': pd.DataFrame(), 'total_kh': 0}
+  if df_cat is None or df_cat.empty:
+    return empty
+
+  df = df_cat.copy()
+  c_nv = find_col(df, ['SM Name', 'SM name', 'Tên NVBH', 'Nhân viên'])
+  c_ma = find_col(df, ['Outlet Code', 'Outlet_code', 'Mã CH'])
+  c_ten = find_col(df, ['Outlet Name', 'Outlet_name', 'Tên CH'])
+  c_member = find_col(df, ['Member type', 'Member Type', 'Phân loại CAT'])
+  c_loai = find_col(df, ['Phân loại cat', 'Phan loai cat', 'Loại cat'])
+  c_target = find_col(
+      df,
+      [
+          'Doanh số nền tảng của OUTLET',
+          'Doanh so nen tang',
+          'Target',
+          'Chỉ tiêu',
+      ],
+  )
+  # Actual thường (ưu tiên cột không có Not Cancel)
+  c_actual = None
+  for cand in [
+      'Doanh số thực đạt của CAT',
+      'Doanh so thuc dat cua CAT',
+      'Doanh so thuc dat',
+  ]:
+    for c in df.columns:
+      if str(c).strip().lower() == cand.lower() or (
+          'thực đạt' in str(c).lower()
+          and 'cat' in str(c).lower()
+          and 'not cancel' not in str(c).lower()
+          and 'pending' not in str(c).lower()
+      ):
+        c_actual = c
+        break
+    if c_actual:
+      break
+  if not c_actual:
+    c_actual = find_col(
+        df, ['Doanh số thực đạt của CAT', 'Doanh so thuc dat']
+    )
+
+  # Actual Not Cancel/Pending
+  c_actual_nc = None
+  for c in df.columns:
+    cl = str(c).lower()
+    if 'not cancel' in cl or ('pending' in cl and 'thực đạt' in cl):
+      c_actual_nc = c
+      break
+  if not c_actual_nc:
+    c_actual_nc = find_col(
+        df,
+        [
+            'Doanh số thực đạt của CAT(Not Cancel/Pending)',
+            'Doanh số thực đạt của CAT (Not Cancel/Pending)',
+        ],
+    )
+
+  if not c_ma or not c_target or not c_actual:
+    return empty
+
+  if nv_selected(filter_nv) and c_nv:
+    df = filter_df_by_nv(df, c_nv, filter_nv)
+
+  df['_ma'] = df[c_ma].astype(str).str.strip()
+  df['_actual'] = pd.to_numeric(df[c_actual], errors='coerce').fillna(0)
+  if c_actual_nc and c_actual_nc in df.columns:
+    df['_actual_nc'] = pd.to_numeric(
+        df[c_actual_nc], errors='coerce'
+    ).fillna(0)
+  else:
+    df['_actual_nc'] = df['_actual']
+  df['_target'] = pd.to_numeric(df[c_target], errors='coerce').fillna(0)
+  df['_loai'] = (
+      df[c_loai].astype(str).str.strip().str.upper() if c_loai else ''
+  )
+
+  # Map Thứ VT từ MCP
+  thu_map = {}
+  if mcp_df is not None and not mcp_df.empty:
+    c_ma_mcp = find_col(mcp_df, ['Outlet_code', 'Outlet Code', 'Mã CH'])
+    c_thu_mcp = find_col(mcp_df, ['Thứ', 'Frequency', 'Tần suất'])
+    if c_ma_mcp and c_thu_mcp:
+      tmp = mcp_df[[c_ma_mcp, c_thu_mcp]].copy()
+      tmp['_ma'] = tmp[c_ma_mcp].astype(str).str.strip()
+      tmp['_thu'] = tmp[c_thu_mcp].astype(str).str.strip()
+      thu_map = (
+          tmp.drop_duplicates('_ma').set_index('_ma')['_thu'].to_dict()
+      )
+
+  actual_by_outlet = df.groupby('_ma')['_actual'].sum()
+  actual_nc_by_outlet = df.groupby('_ma')['_actual_nc'].sum()
+  target_by_outlet = df.groupby('_ma')['_target'].first()
+  nv_by_outlet = (
+      df.groupby('_ma')[c_nv].first() if c_nv else pd.Series(dtype=str)
+  )
+  ten_by_outlet = (
+      df.groupby('_ma')[c_ten].first() if c_ten else pd.Series(dtype=str)
+  )
+  member_by_outlet = (
+      df.groupby('_ma')[c_member].first() if c_member else pd.Series(dtype=str)
+  )
+
+  rows = []
+  for ma in actual_by_outlet.index:
+    actual = float(actual_by_outlet.get(ma, 0) or 0)
+    actual_nc = float(actual_nc_by_outlet.get(ma, 0) or 0)
+    target = float(target_by_outlet.get(ma, 0) or 0)
+    pct = (actual / target * 100) if target > 0 else (100.0 if actual > 0 else 0.0)
+    member = member_by_outlet.get(ma, '') if len(member_by_outlet) else ''
+    df_out = df[df['_ma'] == ma]
+    has_mission = check_mbs_mission(df_out, member)
+
+    if actual <= 0:
+      nhom, nhom_name = 5, 'Nhóm 5 · Chưa phát sinh DS'
+    elif actual >= target and has_mission:
+      nhom, nhom_name = 1, 'Nhóm 1 · Đã đạt MBS'
+    elif actual >= target and not has_mission:
+      nhom, nhom_name = 2, 'Nhóm 2 · Đạt DS, thiếu nhiệm vụ'
+    elif pct >= 50 and actual < target and has_mission:
+      nhom, nhom_name = 3, 'Nhóm 3 · Đạt nhiệm vụ, DS ≥50% Target'
+    elif pct >= 60 and actual < target and not has_mission:
+      nhom, nhom_name = 4, 'Nhóm 4 · DS ≥60% Target, thiếu nhiệm vụ'
+    else:
+      nhom, nhom_name = 6, 'Nhóm 6 · Còn lại'
+
+    rows.append({
+        'Outlet Code': ma,
+        'Tên CH': ten_by_outlet.get(ma, '') if len(ten_by_outlet) else '',
+        'Tên NVBH': nv_by_outlet.get(ma, '') if len(nv_by_outlet) else '',
+        'Member type': member,
+        'Thứ VT': thu_map.get(ma, ''),
+        'Actual': actual,
+        'Actual (Not Cancel/Pending)': actual_nc,
+        'Target': target,
+        '% TH': round(pct, 1),
+        'Đạt nhiệm vụ': 'Có' if has_mission else 'Không',
+        'Nhóm': nhom,
+        'Tên nhóm': nhom_name,
+    })
+
+  df_detail = pd.DataFrame(rows)
+  total_kh = len(df_detail)
+
+  group_meta = {
+      1: ('Nhóm 1 · Đã đạt MBS', '#c6f6d5', '#22543d'),
+      2: ('Nhóm 2 · Đạt DS, thiếu nhiệm vụ', '#edf2f7', '#2d3748'),
+      3: ('Nhóm 3 · Đạt nhiệm vụ, DS ≥50% Target', '#edf2f7', '#2d3748'),
+      4: ('Nhóm 4 · DS ≥60% Target, thiếu nhiệm vụ', '#e6fffa', '#234e52'),
+      5: ('Nhóm 5 · Chưa phát sinh DS', '#fff5f5', '#c53030'),
+      6: ('Nhóm 6 · Còn lại', '#ebf8ff', '#2b6cb0'),
+  }
+
+  groups = {}
+  for g in range(1, 7):
+    sub = (
+        df_detail[df_detail['Nhóm'] == g]
+        if not df_detail.empty
+        else pd.DataFrame()
+    )
+    kh = len(sub)
+    act = float(sub['Actual'].sum()) if kh else 0.0
+    tgt = float(sub['Target'].sum()) if kh else 0.0
+    pct_th = round(act / tgt * 100, 1) if tgt > 0 else 0.0
+    pct_kh = round(kh / total_kh * 100, 1) if total_kh else 0.0
+    name, bg, color = group_meta[g]
+    groups[g] = {
+        'name': name,
+        'kh': kh,
+        'total_kh': total_kh,
+        'pct_kh': pct_kh,
+        'actual': act,
+        'target': tgt,
+        'pct_th': pct_th,
+        'bg': bg,
+        'color': color,
+    }
+
+  return {'groups': groups, 'df_detail': df_detail, 'total_kh': total_kh}
+
+
+def format_trieu(v):
+  """Format số tiền thành triệu VNĐ kiểu 1.300,3"""
+  try:
+    tr = float(v) / 1_000_000
+    s = f'{tr:,.1f}'
+    return s.replace(',', 'X').replace('.', ',').replace('X', '.')
+  except Exception:
+    return '0,0'
+
+
+
+
+def build_mbs_brand_report(df_brand, filter_nv=None, mcp_df=None):
+  """Phân loại KH MBS BRAND thành 6 nhóm (logic giống MBS CAT).
+  Target = Doanh số nền tảng của OUTLET
+  Actual = Tổng Doanh số thực đạt của brand (sau CK)
+  Nhiệm vụ = có >= 1 Brand NEW với DS >= 200.000
+  """
+  empty = {'groups': {}, 'df_detail': pd.DataFrame(), 'total_kh': 0}
+  if df_brand is None or df_brand.empty:
+    return empty
+
+  df = df_brand.copy()
+  c_nv = find_col(df, ['SM Name', 'SM name', 'Tên NVBH', 'Nhân viên'])
+  c_ma = find_col(df, ['Outlet Code', 'Outlet_code', 'Mã CH'])
+  c_ten = find_col(df, ['Outlet Name', 'Outlet_name', 'Tên CH'])
+  c_member = find_col(df, ['Member type', 'Member Type', 'Phân loại CAT'])
+  c_loai = find_col(
+      df, ['Phân loại brand', 'Phan loai brand', 'Phân loại cat', 'Loại brand']
+  )
+  c_target = find_col(
+      df,
+      [
+          'Doanh số nền tảng của OUTLET',
+          'Doanh so nen tang',
+          'Target',
+          'Chỉ tiêu',
+      ],
+  )
+  c_actual = None
+  for c in df.columns:
+    cl = str(c).lower()
+    if (
+        'thực đạt' in cl
+        and 'brand' in cl
+        and 'not cancel' not in cl
+        and 'pending' not in cl
+    ):
+      c_actual = c
+      break
+  if not c_actual:
+    c_actual = find_col(
+        df, ['Doanh số thực đạt của brand', 'Doanh so thuc dat']
+    )
+
+  c_actual_nc = None
+  for c in df.columns:
+    cl = str(c).lower()
+    if ('not cancel' in cl or 'pending' in cl) and (
+        'thực đạt' in cl or 'brand' in cl
+    ):
+      c_actual_nc = c
+      break
+  if not c_actual_nc:
+    c_actual_nc = find_col(
+        df,
+        [
+            'Doanh số thực đạt của brand (Not Cancel/Pending)',
+            'Doanh số thực đạt của brand(Not Cancel/Pending)',
+        ],
+    )
+
+  if not c_ma or not c_target or not c_actual:
+    return empty
+
+  if nv_selected(filter_nv) and c_nv:
+    df = filter_df_by_nv(df, c_nv, filter_nv)
+
+  df['_ma'] = df[c_ma].astype(str).str.strip()
+  df['_actual'] = pd.to_numeric(df[c_actual], errors='coerce').fillna(0)
+  if c_actual_nc and c_actual_nc in df.columns:
+    df['_actual_nc'] = pd.to_numeric(
+        df[c_actual_nc], errors='coerce'
+    ).fillna(0)
+  else:
+    df['_actual_nc'] = df['_actual']
+  df['_target'] = pd.to_numeric(df[c_target], errors='coerce').fillna(0)
+  df['_loai'] = (
+      df[c_loai].astype(str).str.strip().str.upper() if c_loai else ''
+  )
+
+  thu_map = {}
+  if mcp_df is not None and not mcp_df.empty:
+    c_ma_mcp = find_col(mcp_df, ['Outlet_code', 'Outlet Code', 'Mã CH'])
+    c_thu_mcp = find_col(mcp_df, ['Thứ', 'Frequency', 'Tần suất'])
+    if c_ma_mcp and c_thu_mcp:
+      tmp = mcp_df[[c_ma_mcp, c_thu_mcp]].copy()
+      tmp['_ma'] = tmp[c_ma_mcp].astype(str).str.strip()
+      tmp['_thu'] = tmp[c_thu_mcp].astype(str).str.strip()
+      thu_map = (
+          tmp.drop_duplicates('_ma').set_index('_ma')['_thu'].to_dict()
+      )
+
+  actual_by_outlet = df.groupby('_ma')['_actual'].sum()
+  actual_nc_by_outlet = df.groupby('_ma')['_actual_nc'].sum()
+  target_by_outlet = df.groupby('_ma')['_target'].first()
+  nv_by_outlet = (
+      df.groupby('_ma')[c_nv].first() if c_nv else pd.Series(dtype=str)
+  )
+  ten_by_outlet = (
+      df.groupby('_ma')[c_ten].first() if c_ten else pd.Series(dtype=str)
+  )
+  member_by_outlet = (
+      df.groupby('_ma')[c_member].first() if c_member else pd.Series(dtype=str)
+  )
+
+  rows = []
+  for ma in actual_by_outlet.index:
+    actual = float(actual_by_outlet.get(ma, 0) or 0)
+    actual_nc = float(actual_nc_by_outlet.get(ma, 0) or 0)
+    target = float(target_by_outlet.get(ma, 0) or 0)
+    pct = (actual / target * 100) if target > 0 else (100.0 if actual > 0 else 0.0)
+    member = member_by_outlet.get(ma, '') if len(member_by_outlet) else ''
+    df_out = df[df['_ma'] == ma]
+    has_mission = check_mbs_mission(df_out, member)
+
+    if actual <= 0:
+      nhom, nhom_name = 5, 'Nhóm 5 · Chưa phát sinh DS'
+    elif actual >= target and has_mission:
+      nhom, nhom_name = 1, 'Nhóm 1 · Đã đạt MBS'
+    elif actual >= target and not has_mission:
+      nhom, nhom_name = 2, 'Nhóm 2 · Đạt DS, thiếu nhiệm vụ'
+    elif pct >= 50 and actual < target and has_mission:
+      nhom, nhom_name = 3, 'Nhóm 3 · Đạt nhiệm vụ, DS ≥50% Target'
+    elif pct >= 60 and actual < target and not has_mission:
+      nhom, nhom_name = 4, 'Nhóm 4 · DS ≥60% Target, thiếu nhiệm vụ'
+    else:
+      nhom, nhom_name = 6, 'Nhóm 6 · Còn lại'
+
+    rows.append({
+        'Outlet Code': ma,
+        'Tên CH': ten_by_outlet.get(ma, '') if len(ten_by_outlet) else '',
+        'Tên NVBH': nv_by_outlet.get(ma, '') if len(nv_by_outlet) else '',
+        'Member type': member,
+        'Thứ VT': thu_map.get(ma, ''),
+        'Actual': actual,
+        'Actual (Not Cancel/Pending)': actual_nc,
+        'Target': target,
+        '% TH': round(pct, 1),
+        'Đạt nhiệm vụ': 'Có' if has_mission else 'Không',
+        'Nhóm': nhom,
+        'Tên nhóm': nhom_name,
+    })
+
+  df_detail = pd.DataFrame(rows)
+  total_kh = len(df_detail)
+
+  group_meta = {
+      1: ('Nhóm 1 · Đã đạt MBS', '#c6f6d5', '#22543d'),
+      2: ('Nhóm 2 · Đạt DS, thiếu nhiệm vụ', '#edf2f7', '#2d3748'),
+      3: ('Nhóm 3 · Đạt nhiệm vụ, DS ≥50% Target', '#edf2f7', '#2d3748'),
+      4: ('Nhóm 4 · DS ≥60% Target, thiếu nhiệm vụ', '#e6fffa', '#234e52'),
+      5: ('Nhóm 5 · Chưa phát sinh DS', '#fff5f5', '#c53030'),
+      6: ('Nhóm 6 · Còn lại', '#ebf8ff', '#2b6cb0'),
+  }
+
+  groups = {}
+  for g in range(1, 7):
+    sub = (
+        df_detail[df_detail['Nhóm'] == g]
+        if not df_detail.empty
+        else pd.DataFrame()
+    )
+    kh = len(sub)
+    act = float(sub['Actual'].sum()) if kh else 0.0
+    tgt = float(sub['Target'].sum()) if kh else 0.0
+    pct_th = round(act / tgt * 100, 1) if tgt > 0 else 0.0
+    pct_kh = round(kh / total_kh * 100, 1) if total_kh else 0.0
+    name, bg, color = group_meta[g]
+    groups[g] = {
+        'name': name,
+        'kh': kh,
+        'total_kh': total_kh,
+        'pct_kh': pct_kh,
+        'actual': act,
+        'target': tgt,
+        'pct_th': pct_th,
+        'bg': bg,
+        'color': color,
+    }
+
+  return {'groups': groups, 'df_detail': df_detail, 'total_kh': total_kh}
 
 
 # ====================== GIAO DIỆN ======================
@@ -2367,13 +2889,15 @@ with f3:
       '8. BÁO CÁO DOANH SỐ TURNOVER': 'TURNOVER',
       '9. BÁO CÁO TỔNG HỢP': 'SUMMARY',
       '10. BÁO CÁO LỊCH VIẾNG THĂM': 'VISIT',
+      '11. BÁO CÁO MBS CAT': 'MBS_CAT',
+      '12. BÁO CÁO MBS BRAND': 'MBS_BRAND',
   }
   selected_name = st.selectbox(
       '', list(kpi_map.keys()), key='kpi', label_visibility='collapsed'
   )
   selected_kpi = kpi_map[selected_name]
 
-f4, f5 = st.columns([1, 1])
+f4, f5, f6 = st.columns([1, 1, 1])
 with f4:
   st.markdown('<p class="filter-label">SALE SUP</p>', unsafe_allow_html=True)
   st.selectbox(
@@ -2381,13 +2905,30 @@ with f4:
   )
 with f5:
   st.markdown(
-      '<p class="filter-label">ĐDKD (Nhân viên)</p>', unsafe_allow_html=True
+      '<p class="filter-label">ĐDKD (Nhân viên - Chọn nhiều)</p>',
+      unsafe_allow_html=True,
   )
-  filter_nv = st.selectbox(
+  filter_nv = st.multiselect(
       '',
-      ['Tất cả ĐDKD'] + nv_list,
+      nv_list,
+      default=[],
       key='ddkd',
       label_visibility='collapsed',
+      placeholder='Tất cả ĐDKD',
+  )
+with f6:
+  st.markdown(
+      '<p class="filter-label">📅 Thứ VT (MBS CAT/BRAND)</p>', unsafe_allow_html=True
+  )
+  thu_opts_main = ['2', '3', '4', '5', '6', '7', '25', '36', '47']
+  f_thu_vt_main = st.multiselect(
+      '',
+      thu_opts_main,
+      default=[],
+      key='mbs_cat_thu_filter',
+      label_visibility='collapsed',
+      placeholder='Tất cả các thứ',
+      disabled=(selected_kpi not in ['MBS_CAT', 'MBS_BRAND']),
   )
 
 st.markdown('---')
@@ -2511,7 +3052,7 @@ with tab_kpi:
         unsafe_allow_html=True,
     )
     st.caption(
-        f"⚡ Ngày: {report_date.strftime('%d/%m/%Y')} | Lọc NV: {filter_nv} |"
+        f"⚡ Ngày: {report_date.strftime('%d/%m/%Y')} | Lọc NV: {nv_label(filter_nv)} |"
         f" Lọc Thứ/Chu kỳ: {f_thu_sum if f_thu_sum else 'Tất cả'}"
     )
 
@@ -2549,6 +3090,413 @@ with tab_kpi:
         """,
         unsafe_allow_html=True,
     )
+
+  elif selected_kpi == 'MBS_CAT':
+    result = build_mbs_cat_report(df_cat, filter_nv, mcp_df=mcp)
+    groups = result['groups']
+    df_detail = result['df_detail']
+    total_kh = result['total_kh']
+
+    st.markdown(
+        f'<h3 style="color: #034ea2; font-weight: 800; margin-bottom: 4px;'
+        f' font-size: 16px; text-align: center;">BÁO CÁO TỔNG HỢP MBS CAT'
+        f' - 6 NHÓM</h3>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f'<p style="text-align: center; font-size: 12px; color: #4a5568;'
+        f' margin-bottom: 8px;">Tổng Doanh Số thực đạt / Chỉ tiêu từng KH'
+        f' | Lọc NV: {nv_label(filter_nv)} | Tổng KH MBS: <b>{total_kh}</b></p>',
+        unsafe_allow_html=True,
+    )
+
+    # Áp dụng lọc Thứ VT (từ bộ lọc chính phía trên) lên df_detail + tính lại 6 nhóm
+    f_thu_vt = f_thu_vt_main if selected_kpi == 'MBS_CAT' else []
+    if total_kh > 0 and f_thu_vt and 'Thứ VT' in df_detail.columns:
+      thu_s = df_detail['Thứ VT'].astype(str).str.strip()
+      mapping_rules = {
+          '2': ['2', '25'], '3': ['3', '36'], '4': ['4', '47'],
+          '5': ['5', '25'], '6': ['6', '36'], '7': ['7', '47'],
+          '25': ['25'], '36': ['36'], '47': ['47'],
+      }
+      mask = pd.Series(False, index=df_detail.index)
+      for t in f_thu_vt:
+        valid_set = mapping_rules.get(str(t).strip(), [str(t).strip()])
+        mask = mask | thu_s.isin(valid_set)
+      df_detail = df_detail[mask].copy()
+      total_kh = len(df_detail)
+      # Tính lại groups
+      group_meta = {
+          1: ('Nhóm 1 · Đã đạt MBS', '#c6f6d5', '#22543d'),
+          2: ('Nhóm 2 · Đạt DS, thiếu nhiệm vụ', '#edf2f7', '#2d3748'),
+          3: ('Nhóm 3 · Đạt nhiệm vụ, DS ≥50% Target', '#edf2f7', '#2d3748'),
+          4: ('Nhóm 4 · DS ≥60% Target, thiếu nhiệm vụ', '#e6fffa', '#234e52'),
+          5: ('Nhóm 5 · Chưa phát sinh DS', '#fff5f5', '#c53030'),
+          6: ('Nhóm 6 · Còn lại', '#ebf8ff', '#2b6cb0'),
+      }
+      groups = {}
+      for g in range(1, 7):
+        sub = df_detail[df_detail['Nhóm'] == g]
+        kh = len(sub)
+        act = float(sub['Actual'].sum()) if kh else 0.0
+        tgt = float(sub['Target'].sum()) if kh else 0.0
+        pct_th = round(act / tgt * 100, 1) if tgt > 0 else 0.0
+        pct_kh = round(kh / total_kh * 100, 1) if total_kh else 0.0
+        name, bg, color = group_meta[g]
+        groups[g] = {
+            'name': name, 'kh': kh, 'total_kh': total_kh,
+            'pct_kh': pct_kh, 'actual': act, 'target': tgt,
+            'pct_th': pct_th, 'bg': bg, 'color': color,
+        }
+
+    if total_kh == 0:
+      st.warning('Không có dữ liệu Data_Cat để chạy báo cáo MBS CAT.')
+    else:
+      # 6 cards - grid responsive (3 cột desktop / 2 cột mobile / 1 cột máy nhỏ)
+      cards_html = ['<div class="mbs-card-grid">']
+      for g in [1, 2, 3, 4, 5, 6]:
+        ginfo = groups[g]
+        pct_badge_bg = (
+            '#c6f6d5'
+            if ginfo['pct_th'] >= 70
+            else ('#fefcbf' if ginfo['pct_th'] >= 50 else '#fed7d7')
+        )
+        pct_badge_color = (
+            '#22543d'
+            if ginfo['pct_th'] >= 70
+            else ('#744210' if ginfo['pct_th'] >= 50 else '#c53030')
+        )
+        cards_html.append(
+            '<div class="mbs-card" style="background:' + ginfo['bg'] + ';">'
+            '<div class="mbs-card-title" style="color:' + ginfo['color'] + ';">'
+            + ginfo['name'] + '</div>'
+            '<div class="mbs-card-kh" style="color:' + ginfo['color'] + ';">'
+            + str(ginfo['kh']) + ' KH'
+            '<span> / ' + str(ginfo['total_kh']) + ' KH</span></div>'
+            '<div class="mbs-card-pct">' + str(ginfo['pct_kh'])
+            + '% tổng KH MBS</div>'
+            '<div class="mbs-card-footer">'
+            'Actual <b>' + format_trieu(ginfo['actual']) + '</b>'
+            ' / Target <b>' + format_trieu(ginfo['target']) + '</b> Tr'
+            ' / % TH '
+            '<span style="background:' + pct_badge_bg + '; color:' + pct_badge_color + ';'
+            ' font-weight:800; padding:1px 6px; border-radius:8px;">'
+            + str(ginfo['pct_th']) + '%</span></div></div>'
+        )
+      cards_html.append('</div>')
+      st.markdown(''.join(cards_html), unsafe_allow_html=True)
+
+      st.markdown(
+          '<p style="font-weight:800; color:#034ea2; margin:12px 0 6px 0;">'
+          '📋 CHI TIẾT TỪNG KHÁCH HÀNG THEO NHÓM</p>',
+          unsafe_allow_html=True,
+      )
+
+      # Lọc nhóm (popover) — Thứ VT đã nằm phía trên 6 nhóm
+      st.markdown(
+          """
+          <style>
+          div[data-testid="stPopover"] button {
+            font-size: 12px !important;
+            padding: 0.35rem 0.8rem !important;
+            min-height: 2.4rem !important;
+            width: 100% !important;
+            justify-content: center !important;
+          }
+          </style>
+          """,
+          unsafe_allow_html=True,
+      )
+      fc1, _ = st.columns([1, 3])
+      with fc1:
+        st.markdown(
+            '<p class="filter-label" style="margin-bottom:2px;font-size:11px !important;">'
+            '👁️ Lọc nhóm</p>',
+            unsafe_allow_html=True,
+        )
+        with st.popover('Chọn nhóm hiển thị', use_container_width=True):
+          nhom_filter = st.multiselect(
+              '',
+              options=[1, 2, 3, 4, 5, 6],
+              default=[1, 2, 3, 4, 5, 6],
+              format_func=lambda x: groups[x]['name'],
+              key='mbs_cat_nhom_filter',
+              label_visibility='collapsed',
+          )
+
+      nhom_selected = st.session_state.get(
+          'mbs_cat_nhom_filter', [1, 2, 3, 4, 5, 6]
+      )
+      if not nhom_selected:
+        nhom_selected = [1, 2, 3, 4, 5, 6]
+      df_show = df_detail[df_detail['Nhóm'].isin(nhom_selected)].copy()
+
+      if not df_show.empty:
+        df_show = df_show.sort_values(
+            ['Nhóm', 'Actual'], ascending=[True, False]
+        )
+        def _fmt_num(x):
+          try:
+            return f'{float(x):,.0f}'.replace(',', '.')
+          except Exception:
+            return x
+        df_show['Actual'] = df_show['Actual'].apply(_fmt_num)
+        if 'Actual (Not Cancel/Pending)' in df_show.columns:
+          df_show['Actual (Not Cancel/Pending)'] = df_show[
+              'Actual (Not Cancel/Pending)'
+          ].apply(_fmt_num)
+        df_show['Target'] = df_show['Target'].apply(_fmt_num)
+        def _fmt_pct(x):
+          try:
+            return f"{float(str(x).replace('%','')):.1f}%"
+          except Exception:
+            return '0%'
+        df_show['% TH'] = df_show['% TH'].apply(_fmt_pct)
+        cols_show = [
+            'Nhóm',
+            'Tên nhóm',
+            'Outlet Code',
+            'Tên CH',
+            'Tên NVBH',
+            'Thứ VT',
+            'Member type',
+            'Actual',
+            'Actual (Not Cancel/Pending)',
+            'Target',
+            '% TH',
+            'Đạt nhiệm vụ',
+        ]
+        df_html = df_show[[c for c in cols_show if c in df_show.columns]].copy()
+        st.markdown(render_html_table(df_html), unsafe_allow_html=True)
+        st.caption(f'Hiển thị: {len(df_show):,} / {total_kh:,} KH')
+        st.download_button(
+            label='⬇️ Xuất file CSV - Chi tiết MBS CAT',
+            data=df_html.to_csv(index=False).encode('utf-8-sig'),
+            file_name='MBS_CAT_ChiTiet_KH.csv',
+            mime='text/csv',
+            key='mbs_cat_export_csv',
+        )
+      else:
+        st.info('Không có KH phù hợp bộ lọc hiện tại.')
+
+      g1, g5 = groups[1], groups[5]
+      note_html = (
+          '<div class="note-box">'
+          '<div style="font-weight:800; color:#034ea2; margin-bottom:8px;'
+          ' font-size:13.5px;">NHẬN XÉT & ĐÁNH GIÁ MBS CAT:</div>'
+          '<ul style="margin:0; padding-left:18px; line-height:1.6;">'
+          '<li><b>Đã đạt MBS (Nhóm 1):</b> ' + str(g1['kh']) + ' KH ('
+          + str(g1['pct_kh']) + '% tổng) — Actual '
+          + format_trieu(g1['actual']) + ' Tr / Target '
+          + format_trieu(g1['target']) + ' Tr (' + str(g1['pct_th'])
+          + '% TH).</li>'
+          '<li><b>Chưa phát sinh DS (Nhóm 5):</b> ' + str(g5['kh'])
+          + ' KH (' + str(g5['pct_kh'])
+          + '%) — cần đôn đốc mở đơn ngay.</li>'
+          '<li><b>Đề xuất:</b> Ưu tiên đẩy nhiệm vụ Cat NEW ≥ 200.000 cho'
+          ' Nhóm 2 &amp; 4 (đã có DS nhưng thiếu nhiệm vụ); kích hoạt'
+          ' Nhóm 5 chưa phát sinh.</li>'
+          '</ul></div>'
+      )
+      st.markdown(note_html, unsafe_allow_html=True)
+
+
+  elif selected_kpi == 'MBS_BRAND':
+    result = build_mbs_brand_report(df_brand, filter_nv, mcp_df=mcp)
+    groups = result['groups']
+    df_detail = result['df_detail']
+    total_kh = result['total_kh']
+
+    st.markdown(
+        f'<h3 style="color: #034ea2; font-weight: 800; margin-bottom: 4px;'
+        f' font-size: 16px; text-align: center;">BÁO CÁO TỔNG HỢP MBS BRAND'
+        f' - 6 NHÓM</h3>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f'<p style="text-align: center; font-size: 12px; color: #4a5568;'
+        f' margin-bottom: 8px;">Tổng Doanh Số thực đạt / Chỉ tiêu từng KH'
+        f' | Lọc NV: {nv_label(filter_nv)} | Tổng KH MBS: <b>{total_kh}</b></p>',
+        unsafe_allow_html=True,
+    )
+
+    f_thu_vt = f_thu_vt_main if selected_kpi == 'MBS_BRAND' else []
+    if total_kh > 0 and f_thu_vt and 'Thứ VT' in df_detail.columns:
+      thu_s = df_detail['Thứ VT'].astype(str).str.strip()
+      mapping_rules = {
+          '2': ['2', '25'], '3': ['3', '36'], '4': ['4', '47'],
+          '5': ['5', '25'], '6': ['6', '36'], '7': ['7', '47'],
+          '25': ['25'], '36': ['36'], '47': ['47'],
+      }
+      mask = pd.Series(False, index=df_detail.index)
+      for t in f_thu_vt:
+        valid_set = mapping_rules.get(str(t).strip(), [str(t).strip()])
+        mask = mask | thu_s.isin(valid_set)
+      df_detail = df_detail[mask].copy()
+      total_kh = len(df_detail)
+      group_meta = {
+          1: ('Nhóm 1 · Đã đạt MBS', '#c6f6d5', '#22543d'),
+          2: ('Nhóm 2 · Đạt DS, thiếu nhiệm vụ', '#edf2f7', '#2d3748'),
+          3: ('Nhóm 3 · Đạt nhiệm vụ, DS ≥50% Target', '#edf2f7', '#2d3748'),
+          4: ('Nhóm 4 · DS ≥60% Target, thiếu nhiệm vụ', '#e6fffa', '#234e52'),
+          5: ('Nhóm 5 · Chưa phát sinh DS', '#fff5f5', '#c53030'),
+          6: ('Nhóm 6 · Còn lại', '#ebf8ff', '#2b6cb0'),
+      }
+      groups = {}
+      for g in range(1, 7):
+        sub = df_detail[df_detail['Nhóm'] == g]
+        kh = len(sub)
+        act = float(sub['Actual'].sum()) if kh else 0.0
+        tgt = float(sub['Target'].sum()) if kh else 0.0
+        pct_th = round(act / tgt * 100, 1) if tgt > 0 else 0.0
+        pct_kh = round(kh / total_kh * 100, 1) if total_kh else 0.0
+        name, bg, color = group_meta[g]
+        groups[g] = {
+            'name': name, 'kh': kh, 'total_kh': total_kh,
+            'pct_kh': pct_kh, 'actual': act, 'target': tgt,
+            'pct_th': pct_th, 'bg': bg, 'color': color,
+        }
+
+    if total_kh == 0:
+      st.warning('Không có dữ liệu Data_Brand để chạy báo cáo MBS BRAND.')
+    else:
+      # 6 cards - grid responsive (3 cột desktop / 2 cột mobile / 1 cột máy nhỏ)
+      cards_html = ['<div class="mbs-card-grid">']
+      for g in [1, 2, 3, 4, 5, 6]:
+        ginfo = groups[g]
+        pct_badge_bg = (
+            '#c6f6d5'
+            if ginfo['pct_th'] >= 70
+            else ('#fefcbf' if ginfo['pct_th'] >= 50 else '#fed7d7')
+        )
+        pct_badge_color = (
+            '#22543d'
+            if ginfo['pct_th'] >= 70
+            else ('#744210' if ginfo['pct_th'] >= 50 else '#c53030')
+        )
+        cards_html.append(
+            '<div class="mbs-card" style="background:' + ginfo['bg'] + ';">'
+            '<div class="mbs-card-title" style="color:' + ginfo['color'] + ';">'
+            + ginfo['name'] + '</div>'
+            '<div class="mbs-card-kh" style="color:' + ginfo['color'] + ';">'
+            + str(ginfo['kh']) + ' KH'
+            '<span> / ' + str(ginfo['total_kh']) + ' KH</span></div>'
+            '<div class="mbs-card-pct">' + str(ginfo['pct_kh'])
+            + '% tổng KH MBS</div>'
+            '<div class="mbs-card-footer">'
+            'Actual <b>' + format_trieu(ginfo['actual']) + '</b>'
+            ' / Target <b>' + format_trieu(ginfo['target']) + '</b> Tr'
+            ' / % TH '
+            '<span style="background:' + pct_badge_bg + '; color:' + pct_badge_color + ';'
+            ' font-weight:800; padding:1px 6px; border-radius:8px;">'
+            + str(ginfo['pct_th']) + '%</span></div></div>'
+        )
+      cards_html.append('</div>')
+      st.markdown(''.join(cards_html), unsafe_allow_html=True)
+
+      st.markdown(
+          '<p style="font-weight:800; color:#034ea2; margin:12px 0 6px 0;">'
+          '📋 CHI TIẾT TỪNG KHÁCH HÀNG THEO NHÓM (BRAND)</p>',
+          unsafe_allow_html=True,
+      )
+      st.markdown(
+          """
+          <style>
+          div[data-testid="stPopover"] button {
+            font-size: 12px !important;
+            padding: 0.35rem 0.8rem !important;
+            min-height: 2.4rem !important;
+            width: 100% !important;
+            justify-content: center !important;
+          }
+          </style>
+          """,
+          unsafe_allow_html=True,
+      )
+      fc1, _ = st.columns([1, 3])
+      with fc1:
+        st.markdown(
+            '<p class="filter-label" style="margin-bottom:2px;font-size:11px !important;">'
+            '👁️ Lọc nhóm</p>',
+            unsafe_allow_html=True,
+        )
+        with st.popover('Chọn nhóm hiển thị', use_container_width=True):
+          st.multiselect(
+              '',
+              options=[1, 2, 3, 4, 5, 6],
+              default=[1, 2, 3, 4, 5, 6],
+              format_func=lambda x: groups[x]['name'],
+              key='mbs_brand_nhom_filter',
+              label_visibility='collapsed',
+          )
+
+      nhom_selected = st.session_state.get(
+          'mbs_brand_nhom_filter', [1, 2, 3, 4, 5, 6]
+      )
+      if not nhom_selected:
+        nhom_selected = [1, 2, 3, 4, 5, 6]
+      df_show = df_detail[df_detail['Nhóm'].isin(nhom_selected)].copy()
+
+      if not df_show.empty:
+        df_show = df_show.sort_values(
+            ['Nhóm', 'Actual'], ascending=[True, False]
+        )
+        def _fmt_num_b(x):
+          try:
+            return f'{float(x):,.0f}'.replace(',', '.')
+          except Exception:
+            return x
+        df_show['Actual'] = df_show['Actual'].apply(_fmt_num_b)
+        if 'Actual (Not Cancel/Pending)' in df_show.columns:
+          df_show['Actual (Not Cancel/Pending)'] = df_show[
+              'Actual (Not Cancel/Pending)'
+          ].apply(_fmt_num_b)
+        df_show['Target'] = df_show['Target'].apply(_fmt_num_b)
+        def _fmt_pct_brand(x):
+          try:
+            return f"{float(str(x).replace('%','')):.1f}%"
+          except Exception:
+            return '0%'
+        df_show['% TH'] = df_show['% TH'].apply(_fmt_pct_brand)
+        cols_show = [
+            'Nhóm', 'Tên nhóm', 'Outlet Code', 'Tên CH', 'Tên NVBH',
+            'Thứ VT', 'Member type', 'Actual',
+            'Actual (Not Cancel/Pending)', 'Target', '% TH',
+            'Đạt nhiệm vụ',
+        ]
+        df_html = df_show[[c for c in cols_show if c in df_show.columns]].copy()
+        st.markdown(render_html_table(df_html), unsafe_allow_html=True)
+        st.caption(f'Hiển thị: {len(df_show):,} / {total_kh:,} KH')
+        st.download_button(
+            label='⬇️ Xuất file CSV - Chi tiết MBS BRAND',
+            data=df_html.to_csv(index=False).encode('utf-8-sig'),
+            file_name='MBS_BRAND_ChiTiet_KH.csv',
+            mime='text/csv',
+            key='mbs_brand_export_csv',
+        )
+      else:
+        st.info('Không có KH phù hợp bộ lọc hiện tại.')
+
+      g1, g5 = groups[1], groups[5]
+      note_html = (
+          '<div class="note-box">'
+          '<div style="font-weight:800; color:#034ea2; margin-bottom:8px;'
+          ' font-size:13.5px;">NHẬN XÉT & ĐÁNH GIÁ MBS BRAND:</div>'
+          '<ul style="margin:0; padding-left:18px; line-height:1.6;">'
+          '<li><b>Đã đạt MBS (Nhóm 1):</b> ' + str(g1['kh']) + ' KH ('
+          + str(g1['pct_kh']) + '% tổng) — Actual '
+          + format_trieu(g1['actual']) + ' Tr / Target '
+          + format_trieu(g1['target']) + ' Tr (' + str(g1['pct_th'])
+          + '% TH).</li>'
+          '<li><b>Chưa phát sinh DS (Nhóm 5):</b> ' + str(g5['kh'])
+          + ' KH (' + str(g5['pct_kh'])
+          + '%) — cần đôn đốc mở đơn ngay.</li>'
+          '<li><b>Đề xuất:</b> Ưu tiên đẩy nhiệm vụ Brand NEW ≥ 200.000 cho'
+          ' Nhóm 2 &amp; 4; kích hoạt Nhóm 5 chưa phát sinh.</li>'
+          '</ul></div>'
+      )
+      st.markdown(note_html, unsafe_allow_html=True)
+
 
   elif selected_kpi == 'VISIT':
     # ===== TỰ NHẬN THỨ + TUẦN ISO CHẴN/LẺ TỪ NGÀY CHỌN =====
