@@ -677,7 +677,7 @@ _CURRENT_SALARY_KPI = ''
 KPI_SALARY_MIN_PCT = {
     'TURNOVER': 95.0,
     'PC_BT': 100.0,
-    'LPPC': 91.5,         # 4.3 / target 4.7 × 100
+    'LPPC': 90.9,         # Miền Đông: 5.0 / target 5.5 × 100
     'ASO_ALL': 100.0,
     'ASO_FOCUS': 90.0,
     'ASO_FOCUS_2': 90.0,
@@ -685,11 +685,11 @@ KPI_SALARY_MIN_PCT = {
     'LPPC_MEAT': 100.0,
 }
 
-# Mốc mặc định (%). LPPC/LPPC_Meat: mốc tuyệt đối (4.3 / 3.8) — xử lý riêng khi set.
+# Mốc mặc định (%). LPPC (Miền Đông LMC): mốc 5.0 / target 5.5; LPPC_Meat: 3.8.
 KPI_COLOR_MOC = {
     'TURNOVER': 95.0,
     'PC_BT': 100.0,
-    'LPPC': 91.5,         # mốc 4.3 / target 4.7 × 100 ≈ 91.5% trên cột % MTD
+    'LPPC': 90.9,         # Miền Đông: mốc 5.0 / target 5.5 × 100 ≈ 90.9% trên cột % MTD
     'ASO_ALL': 80.0,
     'ASO_FOCUS': 100.0,
     'ASO_FOCUS_2': 100.0,
@@ -2075,7 +2075,7 @@ def build_report(
   DEFAULT_TGT = {
       'ASO_FOCUS': 72,
       'ASO_FOCUS_2': 26,
-      'LPPC': 4.7,
+      'LPPC': 5.5,  # Miền Đông (Bình Dương) — target mức 2
       'LPPC_MEAT': 3.8,
   }
 
@@ -6920,12 +6920,13 @@ with f2:
   st.markdown('<p class="filter-label">KPI NAME</p>', unsafe_allow_html=True)
   # Mức lương KPI theo Công văn số 22–011026/INC-KD-MSC-NET-MBD-CDGT, áp dụng T10/2026.
   KPI_SALARY_LABEL = {
+      # Công văn tiền thưởng — Trung Đoàn 2&3 (Lê Minh Chiến, Miền Đông / Bình Dương)
       'TURNOVER': '95%: 3.920.000đ | 100%: 5.600.000đ',
-      'PC_BT': '100%: 2.400.000đ',
-      'LPPC': 'Mức 1 (4,3): 1.980.000đ | Mức 2 (4,7): 2.200.000đ',
-      'ASO_ALL': '100%: 1.100.000đ',
-      'ASO_FOCUS': '90%: 880.000đ | 100%: 1.100.000đ',
-      'ASO_FOCUS_2': '90%: 720.000đ | 100%: 900.000đ',
+      'PC_BT': '100%: 2.200.000đ',
+      'LPPC': 'Miền Đông — Mức 1 (5,0): 1.800.000đ | Mức 2 (5,5): 2.000.000đ',
+      'ASO_ALL': '100%: 1.040.000đ',
+      'ASO_FOCUS': '90%: 800.000đ | 100%: 1.000.000đ',
+      'ASO_FOCUS_2': '90%: 640.000đ | 100%: 800.000đ',
       'PC_ON': '100%: 1.500.000đ',
       'LPPC_MEAT': '100%: 400.000đ',
   }
