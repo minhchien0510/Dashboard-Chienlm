@@ -315,7 +315,37 @@ def render_metric_card(label, value):
 
 # ====================== ĐƯỜNG DẪN ======================
 DATA_DIR = 'data'
-RPT_PATH = os.path.join(DATA_DIR, 'RPT_061.xlsx')
+
+def _resolve_rpt_path():
+  """Tìm file data bán hàng: DanhSachChiTietDonHang / RPT_061 / biến thể."""
+  preferred = [
+      'DanhSachChiTietDonHang.xlsx',
+      'DanhSachChiTietDonHang.xls',
+      'RPT_061.xlsx',
+      'RPT_061.xls',
+  ]
+  for name in preferred:
+    p = os.path.join(DATA_DIR, name)
+    if os.path.isfile(p):
+      return p
+  if os.path.isdir(DATA_DIR):
+    try:
+      for fn in os.listdir(DATA_DIR):
+        low = fn.lower().replace(' ', '').replace('_', '')
+        if not fn.lower().endswith(('.xlsx', '.xls', '.xlsm')):
+          continue
+        if (
+            'chitietdonhang' in low
+            or 'danhsachchitiet' in low
+            or 'rpt061' in low
+            or 'lineitem' in low
+        ):
+          return os.path.join(DATA_DIR, fn)
+    except Exception:
+      pass
+  return os.path.join(DATA_DIR, 'DanhSachChiTietDonHang.xlsx')
+
+RPT_PATH = _resolve_rpt_path()
 MCP_PATH = os.path.join(DATA_DIR, 'Data_MCP.xlsx')
 KPI_PATH = os.path.join(DATA_DIR, 'Target_KPI.xlsx')
 CAT_PATH = 'Data_Cat.xlsx'
@@ -346,25 +376,99 @@ COMBO_ON_PATH = (
 
 
 # ====================== LOAD ======================
+def _read_sales_excel(path):
+  """Đọc file chi tiết đơn hàng / RPT — tự tìm dòng header.
+
+  Format mới (DanhSachChiTietDonHang):
+    row0 title, row1 date range, row2 blank, row3 = header thật
+  Format cũ RPT_061: header ở row 0.
+  """
+  raw = pd.read_excel(path, header=None, dtype=object)
+  header_row = None
+  markers = (
+      'mã nvbh', 'ma nvbh', 'ngày tạo đơn hàng', 'ngay tao don hang',
+      'mã ch', 'ma ch', 'ship-to npp',
+  )
+  for i in range(min(15, len(raw))):
+    vals = [str(x).strip().lower() for x in raw.iloc[i].tolist() if pd.notna(x)]
+    joined = ' | '.join(vals)
+    if any(m in joined for m in markers) and len(vals) >= 8:
+      header_row = i
+      break
+  if header_row is None:
+    header_row = 0
+  cols = [
+      str(c).strip() if pd.notna(c) else f'Col_{i}'
+      for i, c in enumerate(raw.iloc[header_row].tolist())
+  ]
+  df = raw.iloc[header_row + 1:].copy()
+  df.columns = cols
+  df = df.dropna(how='all')
+  if 'Mã NVBH' in df.columns:
+    bad = df['Mã NVBH'].astype(str).str.strip().str.lower()
+    df = df[~bad.isin(['mã nvbh', 'ma nvbh', 'nan', ''])]
+  return df.reset_index(drop=True)
+
+
 @st.cache_data(ttl=600)
 def load_main_data():
-  if not os.path.exists(RPT_PATH) or not os.path.exists(MCP_PATH):
+  rpt_path = _resolve_rpt_path()
+  if not os.path.exists(rpt_path) or not os.path.exists(MCP_PATH):
     st.error(
-        f"Thiếu file RPT_061.xlsx hoặc Data_MCP.xlsx trong thư mục '{DATA_DIR}'"
+        f"Thiếu file **DanhSachChiTietDonHang.xlsx** (hoặc RPT_061.xlsx) "
+        f"hoặc **Data_MCP.xlsx** trong thư mục `{DATA_DIR}`"
     )
     st.stop()
-  df = pd.read_excel(RPT_PATH)
+  df = _read_sales_excel(rpt_path)
   mcp = pd.read_excel(MCP_PATH)
-  df = df[df['Tình trạng đơn hàng'] != 'Đã hủy'].copy()
-  df['Ngày tạo đơn hàng'] = pd.to_datetime(
-      df['Ngày tạo đơn hàng'], format='%d/%m/%Y %H:%M:%S', errors='coerce'
-  )
-  df['date'] = df['Ngày tạo đơn hàng'].dt.date
-  mcp_map = mcp[['Outlet_code', 'L1']].drop_duplicates('Outlet_code')
-  mcp_map['Outlet_code'] = mcp_map['Outlet_code'].astype(str)
-  df['Mã CH'] = df['Mã CH'].astype(str)
-  df = df.merge(mcp_map, left_on='Mã CH', right_on='Outlet_code', how='left')
-  df['Tên SP lower'] = df['Tên sản phẩm'].astype(str).str.lower()
+
+  rename = {}
+  for c in df.columns:
+    cl = str(c).strip().lower()
+    if cl in ('mã ch', 'ma ch', 'outlet code', 'outlet_code') and 'Mã CH' not in df.columns:
+      rename[c] = 'Mã CH'
+    if (
+        cl in ('tên sản phẩm', 'ten san pham', 'product name')
+        and 'Tên sản phẩm' not in df.columns
+    ):
+      rename[c] = 'Tên sản phẩm'
+  if rename:
+    df = df.rename(columns=rename)
+
+  if 'Tình trạng đơn hàng' in df.columns:
+    df = df[df['Tình trạng đơn hàng'].astype(str).str.strip() != 'Đã hủy'].copy()
+
+  if 'Ngày tạo đơn hàng' in df.columns:
+    df['Ngày tạo đơn hàng'] = pd.to_datetime(
+        df['Ngày tạo đơn hàng'], dayfirst=True, errors='coerce'
+    )
+    df['date'] = df['Ngày tạo đơn hàng'].dt.date
+  else:
+    df['date'] = pd.NaT
+
+  c_out = 'Outlet_code' if 'Outlet_code' in mcp.columns else None
+  if not c_out:
+    for c in mcp.columns:
+      if str(c).strip().lower().replace(' ', '_') in ('outlet_code', 'outletcode'):
+        c_out = c
+        break
+  c_l1 = 'L1' if 'L1' in mcp.columns else None
+  if c_out and c_l1:
+    mcp_map = mcp[[c_out, c_l1]].drop_duplicates(c_out).copy()
+    mcp_map[c_out] = mcp_map[c_out].astype(str).str.replace(r'\.0$', '', regex=True)
+    mcp_map = mcp_map.rename(columns={c_out: 'Outlet_code', c_l1: 'L1'})
+  else:
+    mcp_map = pd.DataFrame(columns=['Outlet_code', 'L1'])
+
+  if 'Mã CH' in df.columns:
+    df['Mã CH'] = (
+        df['Mã CH'].astype(str).str.strip().str.replace(r'\.0$', '', regex=True)
+    )
+    df = df.merge(mcp_map, left_on='Mã CH', right_on='Outlet_code', how='left')
+  if 'Tên sản phẩm' in df.columns:
+    df['Tên SP lower'] = df['Tên sản phẩm'].astype(str).str.lower()
+  else:
+    df['Tên SP lower'] = ''
   return df, mcp
 
 
@@ -6006,6 +6110,247 @@ def _df_display_export(df, kind='summary'):
   return out
 
 
+
+def build_vip_ko_dh_detail(df_visit, df_mcp, report_date, filter_nv=None):
+  """Chi tiết CH VIP đã VT trong ngày BC nhưng KHÔNG có đơn hàng."""
+  empty = pd.DataFrame(columns=[
+      'STT', 'Tên NVBH', 'Mã KH', 'Tên KH', 'VIP',
+      'Ngày VT thực tế', 'Số Phút Viếng Thăm', 'Trạng thái',
+  ])
+  if df_visit is None or df_visit.empty:
+    return empty
+
+  rd = report_date.date() if hasattr(report_date, 'date') else report_date
+  vis = df_visit.copy()
+
+  if 'Ngày VT thực tế' in vis.columns:
+    vis['_actual'] = pd.to_datetime(
+        vis['Ngày VT thực tế'], dayfirst=True, errors='coerce'
+    ).dt.date
+  elif '_actual' not in vis.columns:
+    return empty
+
+  def _norm(x):
+    if pd.isna(x):
+      return ''
+    s = str(x).strip()
+    if s.endswith('.0'):
+      s = s[:-2]
+    try:
+      return str(int(float(s)))
+    except Exception:
+      return s
+
+  vis['_ma'] = (
+      vis['Mã Cửa hàng'].map(_norm) if 'Mã Cửa hàng' in vis.columns else ''
+  )
+  vis['_nv'] = (
+      vis['Tên NVBH'].astype(str).str.strip() if 'Tên NVBH' in vis.columns else ''
+  )
+  vis['_status'] = (
+      vis['Trạng thái'].astype(str).str.strip() if 'Trạng thái' in vis.columns else ''
+  )
+  vis['_nhom'] = (
+      vis['Tên Nhóm CH'].astype(str).str.strip()
+      if 'Tên Nhóm CH' in vis.columns else ''
+  )
+  # Số phút viếng thăm
+  _phut_col = None
+  for _c in vis.columns:
+    if str(_c).strip().lower().replace(' ', '') in (
+        'sốphútviếngthăm', 'sophutviengtham', 'sốphútvt', 'sophutvt'
+    ) or 'phút' in str(_c).lower() or 'phut' in str(_c).lower().replace('ú', 'u'):
+      _phut_col = _c
+      break
+  if _phut_col:
+    vis['_phut'] = pd.to_numeric(vis[_phut_col], errors='coerce')
+  else:
+    vis['_phut'] = None
+  vis['_ten_kh'] = (
+      vis['Tên Cửa hàng'].astype(str).str.strip()
+      if 'Tên Cửa hàng' in vis.columns
+      else (
+          vis['Tên CH'].astype(str).str.strip()
+          if 'Tên CH' in vis.columns else ''
+      )
+  )
+
+  # MCP VIP + L1 + tên
+  vip_map, l1_map, ten_map = {}, {}, {}
+  if df_mcp is not None and not df_mcp.empty:
+    c_ma = find_col(df_mcp, ['Outlet_code', 'Outlet Code', 'Mã CH'])
+    c_vip = find_col(df_mcp, ['VIP MCH', 'VIP_MCH'])
+    c_l1 = find_col(df_mcp, ['L1', 'Channel'])
+    c_ten = find_col(df_mcp, ['Outlet_name', 'Outlet Name', 'Tên CH', 'Tên cửa hàng'])
+    if c_ma:
+      for _, r in df_mcp.iterrows():
+        ma = _norm(r[c_ma])
+        if not ma:
+          continue
+        if c_vip and pd.notna(r.get(c_vip)):
+          vip_map[ma] = str(r[c_vip]).strip().upper()
+        if c_l1 and pd.notna(r.get(c_l1)):
+          l1_map[ma] = str(r[c_l1])
+        if c_ten and pd.notna(r.get(c_ten)):
+          ten_map[ma] = str(r[c_ten]).strip()
+
+  def _is_vip(ma, nhom=''):
+    v = vip_map.get(ma, '')
+    n = str(nhom or '').strip().upper().replace(' ', '')
+    return v in ('VIP3', 'VIP5', 'VIPSI') or n in ('VIP3', 'VIP5', 'VIPSI')
+
+  def _kenh(ma):
+    l1 = str(l1_map.get(ma, '')).lower()
+    if 'on' in l1 and 'off' not in l1:
+      return 'ON'
+    return 'OFF'
+
+  # Đã VT trong ngày, không có đơn
+  v_day = vis[vis['_actual'] == rd].copy()
+  if v_day.empty:
+    return empty
+
+  v_day['_co_dh'] = v_day['_status'] == 'Có đơn hàng'
+  v_day['_da_vt'] = ~v_day['_status'].isin(['Chờ viếng thăm', 'nan', '', 'None'])
+  # VIP KO ĐH: đã VT (hoặc status khác chờ) + không có ĐH + VIP
+  rows = []
+  seen = set()
+  for _, r in v_day.iterrows():
+    ma = r.get('_ma', '')
+    if not ma or r.get('_co_dh'):
+      continue
+    # Chỉ lấy CH đã VT (không còn chờ viếng thăm)
+    if not r.get('_da_vt'):
+      continue
+    nhom = r.get('_nhom', '')
+    if not _is_vip(ma, nhom):
+      continue
+    key = (r.get('_nv', ''), ma)
+    if key in seen:
+      continue
+    seen.add(key)
+    vip_label = vip_map.get(ma, '') or str(nhom).upper()
+    ten = r.get('_ten_kh', '') or ten_map.get(ma, '')
+    ngay = r.get('_actual', rd)
+    phut = r.get('_phut', '')
+    if pd.isna(phut) or phut is None:
+      phut_s = ''
+    else:
+      try:
+        phut_s = int(phut) if float(phut) == int(float(phut)) else round(float(phut), 1)
+      except Exception:
+        phut_s = phut
+    rows.append({
+        'Tên NVBH': r.get('_nv', ''),
+        'Mã KH': ma,
+        'Tên KH': ten,
+        'VIP': vip_label,
+        'Ngày VT thực tế': (
+            ngay.strftime('%d/%m/%Y') if hasattr(ngay, 'strftime') else str(ngay)
+        ),
+        'Số Phút Viếng Thăm': phut_s,
+        'Trạng thái': r.get('_status', ''),
+    })
+
+  if not rows:
+    return empty
+
+  out = pd.DataFrame(rows)
+  if filter_nv:
+    vals = [
+        str(v).strip()
+        for v in (filter_nv if isinstance(filter_nv, list) else [filter_nv])
+        if str(v).strip()
+    ]
+    if vals:
+      out = out[out['Tên NVBH'].isin(vals)]
+  if out.empty:
+    return empty
+
+  out = out.sort_values(['Tên NVBH', 'Mã KH']).reset_index(drop=True)
+  out.insert(0, 'STT', range(1, len(out) + 1))
+  return out
+
+
+def render_vip_ko_dh_html(df):
+  """Bảng chi tiết VIP KO ĐH — format giống Trái Tuyến + scale mobile."""
+  if df is None or df.empty:
+    return ''
+  cols = [
+      'STT', 'Tên NVBH', 'Mã KH', 'Tên KH', 'VIP',
+      'Ngày VT thực tế', 'Số Phút Viếng Thăm', 'Trạng thái',
+  ]
+  for c in cols:
+    if c not in df.columns:
+      df[c] = ''
+  th = (
+      'background-color:#1a365d !important;color:#ffffff !important;'
+      'font-weight:800 !important;text-align:center !important;'
+      'border:1px solid #2b6cb0 !important;padding:8px 6px;font-size:12px;'
+      'white-space:nowrap;'
+  )
+  td_base = (
+      'border:1px solid #bce2f5 !important;padding:6px 5px;font-size:12px;'
+      'text-align:center !important;white-space:nowrap;'
+  )
+  # CSS scale trên mobile: font/padding nhỏ hơn, cuộn ngang mượt
+  mobile_css = (
+      '<style>'
+      '.vip-ko-wrap{margin-top:20px;width:100%;}'
+      '.vip-ko-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;'
+      'width:100%;max-width:100%;}'
+      '.vip-ko-table{border-collapse:collapse;width:100%;min-width:720px;'
+      'font-family:Arial,sans-serif;}'
+      '@media (max-width:768px){'
+      '.vip-ko-table{min-width:640px;font-size:11px !important;}'
+      '.vip-ko-table th,.vip-ko-table td{padding:5px 4px !important;'
+      'font-size:11px !important;}'
+      '.vip-ko-title{font-size:14px !important;}'
+      '}'
+      '@media (max-width:480px){'
+      '.vip-ko-table{min-width:560px;font-size:10px !important;}'
+      '.vip-ko-table th,.vip-ko-table td{padding:4px 3px !important;'
+      'font-size:10px !important;}'
+      '.vip-ko-title{font-size:13px !important;}'
+      '}'
+      '</style>'
+  )
+  html = [
+      mobile_css,
+      '<div class="vip-ko-wrap">',
+      '<h4 class="vip-ko-title" style="color:#1a365d;font-weight:800;margin:8px 0 6px 0;">'
+      '📋 CHI TIẾT KH VIP KO ĐƠN HÀNG</h4>',
+      '<div class="vip-ko-scroll">',
+      '<table class="custom-kpi-table vip-ko-table">',
+      '<thead><tr>',
+  ]
+  for c in cols:
+    html.append(f'<th style="{th}">{c}</th>')
+  html.append('</tr></thead><tbody>')
+  for pos, (_, row) in enumerate(df.iterrows()):
+    bg = '#e6f4fc' if pos % 2 == 0 else '#ffffff'
+    html.append('<tr>')
+    for c in cols:
+      val = row.get(c, '')
+      if pd.isna(val):
+        val = ''
+      al = 'left' if c in ('Tên NVBH', 'Tên KH') else 'center'
+      # VIP: tô đỏ nhạt
+      if c == 'VIP' and str(val).strip():
+        html.append(
+            f'<td style="{td_base}background-color:#fed7d7 !important;'
+            f'color:#742a2a !important;font-weight:800;">{val}</td>'
+        )
+      else:
+        html.append(
+            f'<td style="{td_base}background-color:{bg} !important;'
+            f'text-align:{al} !important;">{val}</td>'
+        )
+    html.append('</tr>')
+  html.append('</tbody></table></div></div>')
+  return ''.join(html)
+
+
 def render_trai_tuyen_html(df):
   """Bảng chi tiết ĐH Trái Tuyến — format giống bảng Hiệu Suất (header xanh đậm, chữ trắng)."""
   if df is None or df.empty:
@@ -6029,13 +6374,34 @@ def render_trai_tuyen_html(df):
       'border:1px solid #bce2f5 !important;padding:6px 5px;font-size:12px;'
       'text-align:center !important;white-space:nowrap;'
   )
+  mobile_css = (
+      '<style>'
+      '.trai-wrap{margin-top:20px;width:100%;}'
+      '.trai-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;'
+      'width:100%;max-width:100%;}'
+      '.trai-table{border-collapse:collapse;width:100%;min-width:860px;'
+      'font-family:Arial,sans-serif;}'
+      '@media (max-width:768px){'
+      '.trai-table{min-width:720px;font-size:11px !important;}'
+      '.trai-table th,.trai-table td{padding:5px 4px !important;'
+      'font-size:11px !important;}'
+      '.trai-title{font-size:14px !important;}'
+      '}'
+      '@media (max-width:480px){'
+      '.trai-table{min-width:640px;font-size:10px !important;}'
+      '.trai-table th,.trai-table td{padding:4px 3px !important;'
+      'font-size:10px !important;}'
+      '.trai-title{font-size:13px !important;}'
+      '}'
+      '</style>'
+  )
   html = [
-      '<div style="margin-top:20px;">',
-      '<h4 style="color:#1a365d;font-weight:800;margin:8px 0 6px 0;">'
+      mobile_css,
+      '<div class="trai-wrap">',
+      '<h4 class="trai-title" style="color:#1a365d;font-weight:800;margin:8px 0 6px 0;">'
       '📋 CHI TIẾT ĐƠN HÀNG TRÁI TUYẾN</h4>',
-      '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">',
-      '<table class="custom-kpi-table" style="border-collapse:collapse;width:100%;'
-      'min-width:900px;font-family:Arial,sans-serif;">',
+      '<div class="trai-scroll">',
+      '<table class="custom-kpi-table trai-table">',
       '<thead><tr>',
   ]
   for c in cols:
@@ -6554,7 +6920,7 @@ with f2:
   st.markdown('<p class="filter-label">KPI NAME</p>', unsafe_allow_html=True)
   # Mức lương KPI theo Công văn số 22–011026/INC-KD-MSC-NET-MBD-CDGT, áp dụng T10/2026.
   KPI_SALARY_LABEL = {
-      'TURNOVER': '95%: 4.508.000đ | 100%: 6.440.000đ',
+      'TURNOVER': '95%: 3.920.000đ | 100%: 5.600.000đ',
       'PC_BT': '100%: 2.400.000đ',
       'LPPC': 'Mức 1 (4,3): 1.980.000đ | Mức 2 (4,7): 2.200.000đ',
       'ASO_ALL': '100%: 1.100.000đ',
@@ -7593,9 +7959,14 @@ with tab_kpi:
             df, df_visit_sched, mcp, report_date, filter_nv
         )
         st.markdown(render_trai_tuyen_html(df_trai), unsafe_allow_html=True)
-        # Nhận xét nằm dưới bảng ĐH Trái Tuyến
+        # Chi tiết VIP KO ĐH phía dưới ĐH Trái Tuyến
+        df_vip_ko = build_vip_ko_dh_detail(
+            df_visit_sched, mcp, report_date, filter_nv
+        )
+        st.markdown(render_vip_ko_dh_html(df_vip_ko), unsafe_allow_html=True)
+        # Nhận xét nằm dưới bảng VIP KO ĐH
         st.markdown(build_performance_comments(df_perf), unsafe_allow_html=True)
-        c1, c2 = st.columns(2)
+        c1, c2, c3 = st.columns(3)
         with c1:
           st.download_button(
               '📥 Tải CSV Hiệu Suất',
@@ -7612,6 +7983,15 @@ with tab_kpi:
                 file_name=f'DH_TraiTuyen_{report_date}.csv',
                 mime='text/csv',
                 key='dl_trai',
+            )
+        with c3:
+          if df_vip_ko is not None and not df_vip_ko.empty:
+            st.download_button(
+                '📥 Tải CSV VIP KO ĐH',
+                data=df_vip_ko.to_csv(index=False).encode('utf-8-sig'),
+                file_name=f'VIP_KO_DH_{report_date}.csv',
+                mime='text/csv',
+                key='dl_vip_ko',
             )
 
   elif selected_kpi == 'DISPLAY':
