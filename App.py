@@ -6209,7 +6209,7 @@ def _fmt_perf_num(v, div_million=True):
     return str(v) if v is not None else ''
 
 
-def render_perf_table_html(df, month_label):
+def render_perf_table_html(df, month_label, use_timegone=False):
   if df is None or df.empty:
     return ''
   cols = ['CAT', 'Target', 'SellOut', '%MTD']
@@ -6258,9 +6258,17 @@ def render_perf_table_html(df, month_label):
             f'<td class="row-total-cell" style="{tot_s}text-align:{al} !important;">{disp}</td>'
         )
       elif c == '%MTD':
-        cls = color_pct_class(val, moc=100.0)
+        if use_timegone:
+          try:
+            _moc = float(_CURRENT_TIMEGONE)
+          except Exception:
+            _moc = 100.0
+        else:
+          _moc = 100.0
+        cls = color_pct_class(val, moc=_moc)
+        bg = color_pct_bg(val, moc=_moc)
         html.append(
-            f'<td data-colored="1" class="{cls}" style="text-align:center !important;'
+            f'<td data-colored="1" class="{cls}" style="{bg}text-align:center !important;'
             f'border:1px solid #bce2f5 !important;padding:5px 8px;font-size:12px;'
             f'font-weight:700 !important;">{disp}</td>'
         )
@@ -6417,7 +6425,7 @@ def build_perf_nv_matrix(df_raw, month, filter_nv=None, df_rpt=None, report_date
   return out, cats
 
 
-def render_perf_nv_matrix_html(df, cats, month_label):
+def render_perf_nv_matrix_html(df, cats, month_label, use_timegone=True):
   """Bảng tổng hợp NV × ngành — sticky STT/Tên NVBH + header, cuộn ngang như Trưng bày."""
   if df is None or df.empty or not cats:
     return ''
@@ -6533,9 +6541,19 @@ def render_perf_nv_matrix_html(df, cats, month_label):
             f'<td class="row-total-cell" style="{tot_s}text-align:right !important;">{disp}</td>'
         )
       elif is_pct:
-        cls = color_pct_class(val, moc=100.0)
+        # Tháng T: Timegone; tháng trước: mốc 100%
+        if use_timegone:
+          try:
+            _moc = float(_CURRENT_TIMEGONE)
+          except Exception:
+            _moc = 100.0
+        else:
+          _moc = 100.0
+        cls = color_pct_class(val, moc=_moc)
+        bg = color_pct_bg(val, moc=_moc)
         html.append(
-            f'<td data-colored="1" class="{cls}" style="text-align:center !important;'
+            f'<td data-colored="1" class="{cls}" style="{bg}'
+            f'text-align:center !important;'
             f'border:1px solid #e2e8f0 !important;padding:3px 4px;font-size:10px;'
             f'font-weight:700 !important;">{disp}</td>'
         )
@@ -9988,15 +10006,23 @@ with tab_kpi:
           df_mat = pd.concat([base_body, pd.DataFrame([tot])], ignore_index=True)
 
         label_m = ', '.join(use_months) if use_months else ''
+        # Chỉ tô Timegone khi lọc đúng 1 tháng và đó là tháng T (mới nhất)
+        _use_tg = (
+            len(use_months) == 1
+            and all_months
+            and use_months[0] == all_months[0]
+        )
         if not df_mat.empty and cats_union:
           st.markdown(
-              render_perf_nv_matrix_html(df_mat, cats_union, label_m),
+              render_perf_nv_matrix_html(
+                  df_mat, cats_union, label_m, use_timegone=_use_tg
+              ),
               unsafe_allow_html=True,
           )
         elif use_months:
           st.info('Không có dữ liệu tổng hợp với bộ lọc hiện tại.')
 
-        for m in months:
+        for _mi, m in enumerate(months):
           df_m = data_by_m.get(m)
           st.markdown(
               f'<h4 style="color:#1a365d;font-weight:800;margin:14px 0 6px 0;">'
@@ -10005,8 +10031,8 @@ with tab_kpi:
           )
           c_left, c_right = st.columns([1, 1.2])
           with c_left:
-            # Bỏ tiêu đề tháng trong table (đã hiện ở trên)
-            html = render_perf_table_html(df_m, m)
+            # Tháng T (đầu list): Timegone; T-1..: mốc 100%
+            html = render_perf_table_html(df_m, m, use_timegone=(_mi == 0))
             html = html.replace(
                 f'<h4 style="color:#1a365d;font-weight:800;margin:12px 0 6px 0;">'
                 f'📅 Tháng {m}</h4>',
