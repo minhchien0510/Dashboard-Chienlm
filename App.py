@@ -963,6 +963,9 @@ def get_all_sm_roster():
           continue
         if name.lower() in ('sm name', 'sm name', 'tên nvbh', 'nhân viên', 'nan', 'none'):
           name = ''
+        _blob = (code + ' ' + name).upper().replace(' ', '').replace('_', '-')
+        if 'CDGT-SMVL' in _blob or 'CDGTSMVL' in _blob:
+          continue
         if code not in roster or (name and not roster.get(code)):
           roster[code] = name
     except Exception:
@@ -1024,10 +1027,47 @@ def merge_sm_roster(sm_names, all_sms, targets=None, turnover_targets=None, mcp_
       continue
     if name_s.lower() in bad_names:
       name_s = ''
+    # Loại CDGT-SMVL (vị trí ảo)
+    _blob = (code_s + ' ' + name_s).upper().replace(' ', '').replace('_', '-')
+    if 'CDGT-SMVL' in _blob or 'CDGTSMVL' in _blob:
+      continue
     cleaned[code_s] = name_s
   sm_names = cleaned
   all_sms = sorted([c for c in set(all_sms) if str(c).strip().lower() not in bad_names and c in sm_names])
   return sm_names, all_sms
+
+
+
+def _is_cdgt_smvl(name_or_code):
+  """True nếu là vị trí ảo CDGT-SMVL (không phải NV thật)."""
+  s = str(name_or_code or '').upper().replace(' ', '').replace('_', '-')
+  return 'CDGT-SMVL' in s or 'CDGTSMVL' in s
+
+
+def filter_out_cdgt_smvl(df):
+  """Loại bỏ dòng CDGT-SMVL khỏi bảng KPI."""
+  if df is None or getattr(df, 'empty', True):
+    return df
+  out = df.copy()
+  mask = pd.Series(True, index=out.index)
+  for col in ('Tên NVBH', 'Tên NV', 'SM Name', 'Mã NVBH', 'SM code', 'SM Code'):
+    if col in out.columns:
+      mask = mask & ~out[col].astype(str).map(_is_cdgt_smvl)
+  out = out[mask].copy()
+  if out.empty:
+    return out.reset_index(drop=True)
+  if 'STT' in out.columns:
+    name_s = out['Tên NVBH'].astype(str) if 'Tên NVBH' in out.columns else pd.Series('', index=out.index)
+    is_tot = out['STT'].astype(str).str.strip().isin(['-', '—']) | name_s.str.contains(
+        'Total|TỔNG', case=False, na=False
+    )
+    body = out[~is_tot].copy()
+    tot = out[is_tot].copy()
+    if not body.empty:
+      body = body.reset_index(drop=True)
+      body['STT'] = range(1, len(body) + 1)
+    out = pd.concat([body, tot], ignore_index=True)
+  return out.reset_index(drop=True)
 
 
 def set_color_moc(moc):
@@ -3216,6 +3256,7 @@ def build_report(
     _tot['GAP'] = _g
     _tot['Bình quân ngày'] = _b
   total_row = pd.DataFrame([_tot])
+  df_out = filter_out_cdgt_smvl(df_out)
   return pd.concat([df_out, total_row], ignore_index=True), team_tgt, title
 
 
@@ -5402,6 +5443,7 @@ def build_turnover_report(df, report_date, turnover_targets, filter_nv=None):
       'GAP': _gap_and_bq_day(team_tgt, total_mtd, _remain_days, as_int=False)[0],
       'Bình quân ngày': _gap_and_bq_day(team_tgt, total_mtd, _remain_days, as_int=False)[1],
   }])
+  df_out = filter_out_cdgt_smvl(df_out)
   return (
       pd.concat([df_out, total_row], ignore_index=True),
       team_tgt,
