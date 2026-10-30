@@ -2193,7 +2193,7 @@ def process_brand_sales(df_rpt, df_brand):
           return b
         continue
 
-      # --- Wake up = Cà phê Wake up Sài Gòn (loại tuyệt đối SP 247) ---
+      # --- Wake up = Cà phê Wake up Sài Gòn + Phil (loại tuyệt đối SP 247) ---
       if b_norm in ('wake up', 'wakeup') or (
           b_norm.startswith('wake up') and '247' not in b_norm
       ):
@@ -2203,6 +2203,7 @@ def process_brand_sales(df_rpt, df_brand):
             'wake up' in s or 'wake-up' in s or 'wakeup' in s
             or 'wake up sài gòn' in s or 'wake up sai gon' in s
             or 'hương chồn' in s or 'huong chon' in s
+            or 'phil' in s  # Phil cùng nhãn Cà phê Wake up
         ):
           return b
         continue
@@ -2211,10 +2212,10 @@ def process_brand_sales(df_rpt, df_brand):
       if b_clean and b_clean in s:
         return b
 
-      # Vinacafe: KHÔNG map theo 'sài gòn' đơn lẻ (tránh nhầm Wake up Sài Gòn)
+      # Vinacafe: không map Phil (Phil thuộc Wake up) / không map 'sài gòn' đơn
       if b_norm in ('vinacafe', 'vinacafé'):
         if (
-            'vinacafé' in s or 'vinacafe' in s or 'phil' in s
+            'vinacafé' in s or 'vinacafe' in s
             or 'vina café' in s or 'vina cafe' in s
         ):
           return b
