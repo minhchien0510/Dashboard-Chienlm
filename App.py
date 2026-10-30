@@ -2166,45 +2166,77 @@ def process_brand_sales(df_rpt, df_brand):
     return df_brand
 
   def match_brand(sku_str):
+    """Map SKU/tên SP → nhãn MBS Brand.
+
+    Quy ước quan trọng:
+      - Wake up      = Cà phê Wake up Sài Gòn (và biến thể cà phê, KHÔNG gồm 247)
+      - Wake Up 247  = Nước tăng lực Wake Up 247
+    """
     if pd.isna(sku_str):
       return 'Khác'
     s = str(sku_str).lower()
     sorted_brands = sorted(brands_list, key=len, reverse=True)
     for b in sorted_brands:
-      b_clean = str(b).lower()
-      if b_clean in s:
+      b_clean = str(b).lower().strip()
+      b_norm = (
+          b_clean.replace('-', ' ').replace('_', ' ')
+          .replace('  ', ' ').strip()
+      )
+
+      # --- Wake Up 247 = Nước tăng lực (ưu tiên, phải có 247) ---
+      if b_norm in ('wake up 247', 'wakeup 247') or (
+          '247' in b_norm and 'wake' in b_norm
+      ):
+        if '247' in s and (
+            'wake up' in s or 'wake-up' in s or 'wakeup' in s or 'wake  up' in s
+        ):
+          return b
+        continue
+
+      # --- Wake up = Cà phê Wake up Sài Gòn (loại tuyệt đối SP 247) ---
+      if b_norm in ('wake up', 'wakeup') or (
+          b_norm.startswith('wake up') and '247' not in b_norm
+      ):
+        if '247' in s:
+          continue
+        if (
+            'wake up' in s or 'wake-up' in s or 'wakeup' in s
+            or 'wake up sài gòn' in s or 'wake up sai gon' in s
+            or 'hương chồn' in s or 'huong chon' in s
+        ):
+          return b
+        continue
+
+      # generic contains (sau khi đã xử lý wake up)
+      if b_clean and b_clean in s:
         return b
-      if b_clean == 'vinacafe' and (
-          'vinacafé' in s
-          or 'vinacafe' in s
-          or 'phil' in s
-          or 'sài gòn' in s
-          or 'sai gon' in s
+
+      # Vinacafe: KHÔNG map theo 'sài gòn' đơn lẻ (tránh nhầm Wake up Sài Gòn)
+      if b_norm in ('vinacafe', 'vinacafé'):
+        if (
+            'vinacafé' in s or 'vinacafe' in s or 'phil' in s
+            or 'vina café' in s or 'vina cafe' in s
+        ):
+          return b
+        continue
+
+      if b_norm == 'heo cao bồi' and ('cao bồi' in s or 'cao boi' in s):
+        return b
+      if b_norm in ('bupnon tea365', 'búp non tea365', 'tea365') and (
+          'búp non' in s or 'bup non' in s or 'tea 365' in s or 'tea365' in s
       ):
         return b
-      if b_clean == 'wake up 247' and (
-          'wake up 247' in s or 'wake-up 247' in s
+      if b_norm == 'sư tử trắng' and ('sư tử' in s or 'su tu' in s):
+        return b
+      if b_norm == 'tam thái tử' and (
+          'tam thái tử' in s or 'tam thai tu' in s
       ):
         return b
-      if b_clean == 'wake up' and ('wake up' in s and '247' not in s):
-        return b
-      if b_clean == 'heo cao bồi' and ('cao bồi' in s or 'cao boi' in s):
-        return b
-      if b_clean == 'bupnon tea365' and (
-          'búp non' in s or 'tea 365' in s or 'tea365' in s
-      ):
-        return b
-      if b_clean == 'sư tử trắng' and ('sư tử' in s or 'su tu' in s):
-        return b
-      if b_clean == 'tam thái tử' and ('tam thái tử' in s or 'tam thai tu' in s):
-        return b
-      if b_clean == 'vivant' and (
+      if b_norm == 'vivant' and (
           'vivant' in s or 'vĩnh hảo' in s or 'vinh hao' in s
       ):
         return b
-      if b_clean == 'compact' and (
-          'compact' in s or 'lemona' in s
-      ):
+      if b_norm == 'compact' and ('compact' in s or 'lemona' in s):
         return b
     return 'Khác'
 
@@ -14428,10 +14460,10 @@ def render_hs_daily_metric_cards(df_perf, report_date, lppc_moc=4.3, aso_off=Non
     '<style>'
     '.hs-day-grid{display:grid;width:100%;gap:10px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));}'
     '@media(min-width:1400px){.hs-day-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}}'
-    '.hs-day-card{background:#fff;border-radius:12px;padding:clamp(8px,1.2vw,12px) clamp(8px,1.2vw,14px);box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid #cbd5e0;min-width:0;text-align:center;}'
-    '.hs-day-card .t{font-size:clamp(9px,1.1vw,12px);font-weight:700;color:#718096;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;}'
-    '.hs-day-card .m{font-size:clamp(13px,1.6vw,18px);font-weight:800;color:#1a202c;margin:4px 0;line-height:1.25;word-break:break-word;text-align:center;}'
-    '.hs-day-card .s{font-size:clamp(10px,1.1vw,12px);color:#4a5568;text-align:center;}'
+    '.hs-day-card{background:#fff;border-radius:12px;padding:clamp(10px,1.3vw,14px) clamp(10px,1.3vw,14px);box-shadow:0 1px 4px rgba(0,0,0,.08);border-top:3px solid #cbd5e0;min-width:0;text-align:center;}'
+    '.hs-day-card .t{font-size:clamp(11px,1.3vw,14px);font-weight:700;color:#718096;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;}'
+    '.hs-day-card .m{font-size:clamp(16px,1.9vw,22px);font-weight:800;color:#1a202c;margin:4px 0;line-height:1.25;word-break:break-word;text-align:center;}'
+    '.hs-day-card .s{font-size:clamp(12px,1.3vw,14px);color:#4a5568;text-align:center;}'
     '</style>',
     f'<div style="margin:18px 0 8px 0;">'
     f'<div style="font-size:16px;font-weight:800;color:#1a365d;margin-bottom:10px;">'
@@ -16054,12 +16086,13 @@ if _nav == '📊 BÁO CÁO KPI':
       if not nhom_selected:
         nhom_selected = [1, 2, 3, 4, 5, 6]
 
-      # Bộ lọc CAT + Đạt Nhiệm Vụ
+      # Bộ lọc CAT + Đạt Nhiệm Vụ + % TH
       cat_opts = sorted([
           str(x).strip() for x in df_detail.get('Member type', pd.Series(dtype=str)).dropna().unique()
           if str(x).strip() and str(x).strip().lower() not in ('nan', 'none')
       ]) if 'Member type' in df_detail.columns else []
-      fc_a, fc_b = st.columns(2)
+      _pct_th_opts = ['< 50%', '≥ 50% & < 75%', '≥ 75% & < 100%']
+      fc_a, fc_b, fc_c = st.columns(3)
       with fc_a:
         st.markdown(
             '<p class="filter-label" style="margin-bottom:2px;font-size:11px !important;">'
@@ -16082,17 +16115,56 @@ if _nav == '📊 BÁO CÁO KPI':
             key='mbs_cat_mission_filter', placeholder='Tất cả',
             label_visibility='collapsed',
         )
+      with fc_c:
+        st.markdown(
+            '<p class="filter-label" style="margin-bottom:2px;font-size:11px !important;">'
+            '📊 Lọc % TH</p>',
+            unsafe_allow_html=True,
+        )
+        pct_th_selected = st.multiselect(
+            '', options=_pct_th_opts, default=[],
+            key='mbs_cat_pct_th_filter', placeholder='Tất cả % TH',
+            label_visibility='collapsed',
+        )
 
       df_show = df_detail[df_detail['Nhóm'].isin(nhom_selected)].copy()
       if member_selected and 'Member type' in df_show.columns:
         df_show = df_show[df_show['Member type'].astype(str).str.strip().isin(member_selected)]
       if mission_selected and 'Đạt nhiệm vụ' in df_show.columns:
         df_show = df_show[df_show['Đạt nhiệm vụ'].astype(str).str.strip().isin(mission_selected)]
+      if pct_th_selected and '% TH' in df_show.columns:
+        def _pct_th_val(x):
+          try:
+            return float(str(x).replace('%', '').replace(',', '.').strip())
+          except Exception:
+            return None
+        _pv = df_show['% TH'].map(_pct_th_val)
+        _mask = pd.Series(False, index=df_show.index)
+        if '< 50%' in pct_th_selected:
+          _mask = _mask | (_pv < 50)
+        if '≥ 50% & < 75%' in pct_th_selected:
+          _mask = _mask | ((_pv >= 50) & (_pv < 75))
+        if '≥ 75% & < 100%' in pct_th_selected:
+          _mask = _mask | ((_pv >= 75) & (_pv < 100))
+        df_show = df_show[_mask]
+
+      sort_nv_az = st.checkbox(
+          '🔤 Sort Tên NVBH A → Z',
+          value=False,
+          key='mbs_cat_sort_nv_az',
+      )
 
       if not df_show.empty:
-        df_show = df_show.sort_values(
-            ['Nhóm', 'Actual'], ascending=[True, False]
-        ).reset_index(drop=True)
+        if sort_nv_az and 'Tên NVBH' in df_show.columns:
+          df_show = df_show.assign(
+              _nv_sort=df_show['Tên NVBH'].astype(str).str.strip().str.lower()
+          ).sort_values(
+              ['_nv_sort', 'Nhóm', 'Actual'], ascending=[True, True, False]
+          ).drop(columns=['_nv_sort']).reset_index(drop=True)
+        else:
+          df_show = df_show.sort_values(
+              ['Nhóm', 'Actual'], ascending=[True, False]
+          ).reset_index(drop=True)
         df_show.insert(0, 'STT', range(1, len(df_show) + 1))
         def _fmt_num(x):
           try:
@@ -16324,7 +16396,8 @@ if _nav == '📊 BÁO CÁO KPI':
           str(x).strip() for x in df_detail.get('Member type', pd.Series(dtype=str)).dropna().unique()
           if str(x).strip() and str(x).strip().lower() not in ('nan', 'none')
       ]) if 'Member type' in df_detail.columns else []
-      fb_a, fb_b = st.columns(2)
+      _pct_th_opts_b = ['< 50%', '≥ 50% & < 75%', '≥ 75% & < 100%']
+      fb_a, fb_b, fb_c = st.columns(3)
       with fb_a:
         st.markdown(
             '<p class="filter-label" style="margin-bottom:2px;font-size:11px !important;">'
@@ -16347,17 +16420,56 @@ if _nav == '📊 BÁO CÁO KPI':
             key='mbs_brand_mission_filter', placeholder='Tất cả',
             label_visibility='collapsed',
         )
+      with fb_c:
+        st.markdown(
+            '<p class="filter-label" style="margin-bottom:2px;font-size:11px !important;">'
+            '📊 Lọc % TH</p>',
+            unsafe_allow_html=True,
+        )
+        pct_th_selected_b = st.multiselect(
+            '', options=_pct_th_opts_b, default=[],
+            key='mbs_brand_pct_th_filter', placeholder='Tất cả % TH',
+            label_visibility='collapsed',
+        )
 
       df_show = df_detail[df_detail['Nhóm'].isin(nhom_selected)].copy()
       if member_selected_b and 'Member type' in df_show.columns:
         df_show = df_show[df_show['Member type'].astype(str).str.strip().isin(member_selected_b)]
       if mission_selected_b and 'Đạt nhiệm vụ' in df_show.columns:
         df_show = df_show[df_show['Đạt nhiệm vụ'].astype(str).str.strip().isin(mission_selected_b)]
+      if pct_th_selected_b and '% TH' in df_show.columns:
+        def _pct_th_val_b(x):
+          try:
+            return float(str(x).replace('%', '').replace(',', '.').strip())
+          except Exception:
+            return None
+        _pvb = df_show['% TH'].map(_pct_th_val_b)
+        _maskb = pd.Series(False, index=df_show.index)
+        if '< 50%' in pct_th_selected_b:
+          _maskb = _maskb | (_pvb < 50)
+        if '≥ 50% & < 75%' in pct_th_selected_b:
+          _maskb = _maskb | ((_pvb >= 50) & (_pvb < 75))
+        if '≥ 75% & < 100%' in pct_th_selected_b:
+          _maskb = _maskb | ((_pvb >= 75) & (_pvb < 100))
+        df_show = df_show[_maskb]
+
+      sort_nv_az_b = st.checkbox(
+          '🔤 Sort Tên NVBH A → Z',
+          value=False,
+          key='mbs_brand_sort_nv_az',
+      )
 
       if not df_show.empty:
-        df_show = df_show.sort_values(
-            ['Nhóm', 'Actual'], ascending=[True, False]
-        ).reset_index(drop=True)
+        if sort_nv_az_b and 'Tên NVBH' in df_show.columns:
+          df_show = df_show.assign(
+              _nv_sort=df_show['Tên NVBH'].astype(str).str.strip().str.lower()
+          ).sort_values(
+              ['_nv_sort', 'Nhóm', 'Actual'], ascending=[True, True, False]
+          ).drop(columns=['_nv_sort']).reset_index(drop=True)
+        else:
+          df_show = df_show.sort_values(
+              ['Nhóm', 'Actual'], ascending=[True, False]
+          ).reset_index(drop=True)
         df_show.insert(0, 'STT', range(1, len(df_show) + 1))
         def _fmt_num_b(x):
           try:
@@ -16923,7 +17035,7 @@ if _nav == '📊 BÁO CÁO KPI':
           )
           st.markdown(_hs_wrap, unsafe_allow_html=True)
           components.html(
-'<!DOCTYPE html><html><head><meta charset="utf-8"/><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><style>html,body{margin:0;padding:0;background:transparent}.bar{display:flex;justify-content:flex-end;gap:4px;padding:4px 6px;background:linear-gradient(180deg,#f7fafc,#edf2f7);border:1px solid #cbd5e0;border-radius:8px}button{width:34px;height:30px;border:1px solid #e2e8f0;background:#fff;border-radius:6px;cursor:pointer;font-size:14px;color:#4a5568}button:hover{background:#edf2f7;color:#1a365d;border-color:#a0aec0}</style></head><body><div class="bar"><button type="button" id="bPng" title="Tai PNG">&#128247;</button><button type="button" id="bIn" title="Zoom in">+</button><button type="button" id="bOut" title="Zoom out">-</button><button type="button" id="bReset" title="Reset">&#8962;</button><button type="button" id="bFull" title="Fullscreen">&#9974;</button></div><script>(function(){var z=1;function bodyEl(){try{var d=window.parent.document;return d.getElementById("hs-report-snap")||d.querySelector(".hs-report-body");}catch(e){return null;}}function frameEl(){try{return window.parent.document.querySelector(".hs-report-frame");}catch(e){return null;}}function applyZ(){var el=bodyEl();if(el)el.style.transform="scale("+z+")";}document.getElementById("bIn").onclick=function(){z=Math.min(1.8,z+0.1);applyZ();};document.getElementById("bOut").onclick=function(){z=Math.max(0.6,z-0.1);applyZ();};document.getElementById("bReset").onclick=function(){z=1;applyZ();};document.getElementById("bFull").onclick=function(){var f=frameEl();if(!f)return;try{if(!window.parent.document.fullscreenElement){(f.requestFullscreen||f.webkitRequestFullscreen).call(f);}else{(window.parent.document.exitFullscreen||window.parent.document.webkitExitFullscreen).call(window.parent.document);}}catch(e){}};document.getElementById("bPng").onclick=async function(){var el=frameEl()||bodyEl();if(!el){alert("Khong tim thay khung");return;}try{var body=bodyEl();var prev=(body&&body.style.transform)||"";if(body)body.style.transform="none";z=1;var canvas=await html2canvas(el,{scale:3,backgroundColor:"#ffffff",useCORS:true,logging:false,allowTaint:true,scrollX:0,scrollY:0,onclone:function(doc,node){try{var root=doc.getElementById("hs-report-snap")||doc.querySelector(".hs-report-body")||node;if(root){root.style.transform="none";root.style.zoom="1";}var all=doc.querySelectorAll(".hs-report-frame,.hs-report-body,.hs-day-card,.hs-day-grid,td,th,div,span,p,b");for(var i=0;i<all.length;i++){var n=all[i];n.style.letterSpacing="0.02em";n.style.wordSpacing="0.05em";n.style.textRendering="geometricPrecision";}var cards=doc.querySelectorAll(".hs-day-card .m,.hs-day-card .t,.hs-day-card .s");for(var j=0;j<cards.length;j++){cards[j].style.whiteSpace="normal";cards[j].style.overflow="visible";}}catch(err){}}});if(body)body.style.transform=prev;var TARGET=2560;var out=canvas;if(Math.max(canvas.width,canvas.height)<TARGET){var k=TARGET/Math.max(canvas.width,canvas.height);out=document.createElement("canvas");out.width=Math.round(canvas.width*k);out.height=Math.round(canvas.height*k);var ctx=out.getContext("2d");ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";ctx.fillStyle="#ffffff";ctx.fillRect(0,0,out.width,out.height);ctx.drawImage(canvas,0,0,out.width,out.height);}var a=document.createElement("a");a.download="Hieu_Suat_Ban_Hang_2K.png";a.href=out.toDataURL("image/png");a.click();}catch(e){alert("Loi PNG: "+e);}};})();</script></body></html>',
+'<!DOCTYPE html><html><head><meta charset="utf-8"/><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><style>html,body{margin:0;padding:0;background:transparent}.bar{display:flex;justify-content:flex-end;gap:4px;padding:4px 6px;background:linear-gradient(180deg,#f7fafc,#edf2f7);border:1px solid #cbd5e0;border-radius:8px}button{width:34px;height:30px;border:1px solid #e2e8f0;background:#fff;border-radius:6px;cursor:pointer;font-size:14px;color:#4a5568}button:hover{background:#edf2f7;color:#1a365d;border-color:#a0aec0}</style></head><body><div class="bar"><button type="button" id="bPng" title="Tai PNG">&#128247;</button><button type="button" id="bIn" title="Zoom in">+</button><button type="button" id="bOut" title="Zoom out">-</button><button type="button" id="bReset" title="Reset">&#8962;</button><button type="button" id="bFull" title="Fullscreen">&#9974;</button></div><script>(function(){var z=1;function bodyEl(){try{var d=window.parent.document;return d.getElementById("hs-report-snap")||d.querySelector(".hs-report-body");}catch(e){return null;}}function frameEl(){try{return window.parent.document.querySelector(".hs-report-frame");}catch(e){return null;}}function applyZ(){var el=bodyEl();if(el)el.style.transform="scale("+z+")";}document.getElementById("bIn").onclick=function(){z=Math.min(1.8,z+0.1);applyZ();};document.getElementById("bOut").onclick=function(){z=Math.max(0.6,z-0.1);applyZ();};document.getElementById("bReset").onclick=function(){z=1;applyZ();};document.getElementById("bFull").onclick=function(){var f=frameEl();if(!f)return;try{if(!window.parent.document.fullscreenElement){(f.requestFullscreen||f.webkitRequestFullscreen).call(f);}else{(window.parent.document.exitFullscreen||window.parent.document.webkitExitFullscreen).call(window.parent.document);}}catch(e){}};document.getElementById("bPng").onclick=async function(){var el=frameEl()||bodyEl();if(!el){alert("Khong tim thay khung");return;}try{var body=bodyEl();var prev=(body&&body.style.transform)||"";if(body)body.style.transform="none";z=1;var canvas=await html2canvas(el,{scale:3,backgroundColor:"#ffffff",useCORS:true,logging:false,allowTaint:true,scrollX:0,scrollY:0,onclone:function(doc,node){try{var root=doc.getElementById("hs-report-snap")||doc.querySelector(".hs-report-body")||node;if(root){root.style.transform="none";root.style.zoom="1";}var all=doc.querySelectorAll(".hs-report-frame,.hs-report-body,.hs-day-card,.hs-day-grid,td,th,div,span,p,b");for(var i=0;i<all.length;i++){var n=all[i];n.style.letterSpacing="0.02em";n.style.wordSpacing="0.05em";n.style.textRendering="geometricPrecision";}var cards=doc.querySelectorAll(".hs-day-card .m,.hs-day-card .t,.hs-day-card .s");for(var j=0;j<cards.length;j++){cards[j].style.whiteSpace="normal";cards[j].style.overflow="visible";}}catch(err){}}});if(body)body.style.transform=prev;var TARGET=2560;var out=canvas;if(Math.max(canvas.width,canvas.height)<TARGET){var k=TARGET/Math.max(canvas.width,canvas.height);out=document.createElement("canvas");out.width=Math.round(canvas.width*k);out.height=Math.round(canvas.height*k);var ctx=out.getContext("2d");ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";ctx.fillStyle="#ffffff";ctx.fillRect(0,0,out.width,out.height);ctx.drawImage(canvas,0,0,out.width,out.height);}var a=document.createElement("a");var _d=new Date();var _dd=String(_d.getDate()).padStart(2,"0");var _mm=String(_d.getMonth()+1).padStart(2,"0");var _yy=_d.getFullYear();a.download=_dd+"-"+_mm+"-"+_yy+".png";a.href=out.toDataURL("image/png");a.click();}catch(e){alert("Loi PNG: "+e);}};})();</script></body></html>',
               height=42,
           )
 
@@ -17388,6 +17500,18 @@ if _nav == '📊 BÁO CÁO KPI':
               .fillna(0).astype(int)
               .isin([int(x) for x in f_anh3])
           ]
+
+      sort_nv_az_tb = st.checkbox(
+          '🔤 Sort Tên NVBH A → Z',
+          value=False,
+          key='disp_sort_nv_az',
+      )
+      if sort_nv_az_tb and not df3f.empty and 'Tên NVBH' in df3f.columns:
+        df3f = df3f.assign(
+            _nv_sort=df3f['Tên NVBH'].astype(str).str.strip().str.lower()
+        ).sort_values(
+            ['_nv_sort', 'Mã KH'], ascending=[True, True]
+        ).drop(columns=['_nv_sort']).reset_index(drop=True)
 
       st.markdown(render_display_detail_html(df3f), unsafe_allow_html=True)
       st.caption(f'Hiển thị: {len(df3f):,} / {len(df3):,} dòng')
